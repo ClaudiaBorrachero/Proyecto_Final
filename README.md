@@ -1,4 +1,11 @@
-1. Descripción
+FlashJob
+Curso Escolar 2021-2022
+Autor: Claudia Nerea Borrachero Mallofret (https://github.com/ClaudiaBorrachero)
+Tutor: Juan Diego Pérez (https://github.com/pekechis)
+Fecha de Inicio: Marzo 2022
+Fecha de Finalización: Junio 2022
+
+Breve descripción del proyecto
 
     El proyecto consistirá en una aplicación enfocada en conectar a aquellas
     personas que necesiten realizar un pequeño trabajo o tarea puntual y no
@@ -9,20 +16,21 @@
     podrán subir sus propios anuncios de trabajos para que los realicen otros
     usuarios.
     
-2. Tecnologías utilizadas
-
-    Para la gestión de la base de datos utilizaremos MariaDB, mientras que para
-    la parte del front usaremos Angular Cli con Bootstrap y CSS para el diseño;
-    por otro lado para el back crearemos una API con Spring.
-    
-3. Objetivos
+Definir el objetivo de la aplicación
 
     Cubrir la necesidad de los usuarios de realizar ciertas tareas, beneficiando a
     otros usuarios con recompensas monetarias o intercambios.
-    
-4. Requisitos
-    - Login con validaciones
-    - Registro de usuarios con formularios reactivos
-    - Modificación del perfil de usuario
-    - Subir, buscar, añadir a favoritos y editar anuncio
-    - Chatear con el ofertante
+
+Prototipo de la Interfaz del proyecto
+
+![ajustes](https://user-images.githubusercontent.com/55448828/161384462-5adae9a7-72c3-46f2-8172-e441af2e03cb.png)
+
+
+.... .... ....
+Estructura del Proyecto
+
+En este apartado el alumno explicará el contenido del repositorio y de todas las carpetas relevantes del mismo.
+
+Demostración del proyecto
+
+Vídeo demostrativo que contenga una pequeña demostración de la apariencia del proyecto y de aquello que el proyecto puede hacer. (No más de 2 minutos).
