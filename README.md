@@ -23,8 +23,8 @@ Breve descripción del proyecto
     
 Definir el objetivo de la aplicación
 
-    Cubrir la necesidad de los usuarios de realizar ciertas tareas, beneficiando a
-    otros usuarios con recompensas monetarias o intercambios.
+    Cubrir la necesidad de los usuarios de realizar ciertas tareas, así ahorrando tiempo
+    a la vez que beneficia a otros usuarios con recompensas monetarias o intercambios.
 
 Prototipo de la Interfaz del proyecto
     
