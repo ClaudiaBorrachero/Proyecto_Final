@@ -23,7 +23,7 @@ Definir el objetivo de la aplicación
 
 Prototipo de la Interfaz del proyecto
 
-![ajustes](https://user-images.githubusercontent.com/55448828/161384462-5adae9a7-72c3-46f2-8172-e441af2e03cb.png)
+
 
 
 .... .... ....
