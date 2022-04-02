@@ -52,6 +52,7 @@ Prototipo de la Interfaz del proyecto
 
 
 .... .... ....
+
 Estructura del Proyecto
 
 En este apartado el alumno explicará el contenido del repositorio y de todas las carpetas relevantes del mismo.
