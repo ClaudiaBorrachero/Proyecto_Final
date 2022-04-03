@@ -27,7 +27,7 @@ Fecha de Finalización: Junio 2022
     a la vez que beneficia a otros usuarios con recompensas monetarias o intercambios.
 
 ## Prototipo de la Interfaz del proyecto
-## Versión LG-XL
+#### Versión LG-XL
 - Inicio sin estar logueado
 ![inicio_sin_log](https://user-images.githubusercontent.com/55448828/161384590-ce008da9-d68b-4c80-a788-062cd5fde66e.png)
 - Inicio logeado
