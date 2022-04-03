@@ -16,7 +16,7 @@ El proyecto consistirá en una aplicación enfocada en conectar a aquellas perso
 
 ## Definir el objetivo de la aplicación
 
-Cubrir la necesidad de los usuarios de realizar ciertas tareas, así ahorrando tiempo a la vez que beneficia a otros usuarios con recompensas monetarias o intercambios.
+**Cubrir la necesidad** de los usuarios de realizar ciertas tareas, así **ahorrando tiempo** a la vez que beneficia a otros usuarios con **recompensas monetarias** o intercambios.
 
 ## Prototipo de la Interfaz del proyecto
 ### Versión LG-XL
