@@ -12,4 +12,4 @@ Consistirá en una aplicación enfocada en conectar a aquellas personas que nece
 - El usuario podrá ver el perfil de otro usuario.
 - El usuario podrá añadir anuncios(título, descripción, precio, categoría, ubicación e imágenes).
 - El usuario podrá editar o borrar sus anuncios.
-- Los usuarios contactarán entre sí con los datos de los ofertantes(núm. teléfono).
+- Los usuarios se contactan entre sí con los datos de los oferentes(núm. teléfono).
