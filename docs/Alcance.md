@@ -4,7 +4,7 @@ Consistirá en una aplicación enfocada en conectar a aquellas personas que nece
 ### Alcance del proyectos
 # Tareas que mi proyecto llevará a cabo:
 - Permite registrarse e iniciar sesión.
-- Se podrán realizar búsquedas a través un buscador.
+- Se podrán realizar búsquedas a través de un buscador.
 - Se podrán filtrar las búsquedas por categoría, ubicación, precio y ubicación.
 - El usuario podrá añadir anuncios a favoritos, y quitar de favoritos.
 - El usuario podrá ver el detalle de un anuncio.
