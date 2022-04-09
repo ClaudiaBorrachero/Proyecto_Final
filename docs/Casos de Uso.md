@@ -1,4 +1,4 @@
-### Casos de uso
+# Casos de uso
 
 - Registro
 - Login
