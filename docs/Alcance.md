@@ -1,20 +1,15 @@
 ### Introducción
-Esta aplicación pretende gestionar los datos de colaboradores, beneficiarios y talleres que organiza una asociación. Será una herramienta útil para conocer la demanda de los beneficiaros y la disponibilidad de colaboradores que puedan atender esa demanda.
+Consistirá en una aplicación enfocada en conectar a aquellas personas que necesiten realizar un pequeño trabajo o tarea puntual y no quieran, o no tengan el tiempo necesario, con otras que quieran ganar un dinero rápido y fácil. Los usuarios podrán subir los trabajos mientras otros podrán contactar con ellos para realizarlos. A la misma vez, las personas que realicen trabajos podrán subir sus propios anuncios de trabajos para que los realicen otros usuarios.
 
 ### Alcance del proyectos
 # Tareas que mi proyecto llevará a cabo:
-- Permite logarse a los beneficiarios y consultar los talleres disponibles, plazas, horarios, etc.
-- Los beneficiarios podrán solicitar la matriculación en alguno de los talleres.
-- Los colaboradores podrán logarse y cambiar sus características, nuevas habilidades, modificar su disponibilidad, etc
-- Remitirá correo electrónico a los beneficiarios con los datos de la reserva que han hecho.
-- Se podrán sacar listas de los alumnos de cada taller.
-- Se podrá sacar un listado de los colaboradores que pueden impartir un taller en un horario determinado.
-- Añadir nuevos talleres, modificar los existentes.
-- Imprimirá diplomas con los datos de los alumnos.
-- Permitirá enviar correos masivos con ofertas de nuevos talleres.
-- Permitirá que los alumnos valoren cada uno de los talleres.
-* Se habilitará un blog para que los usuarios puedan realizar comentarios.
-- Se generará una memoria anual de todos los talleres realizados.
-- Permitirá establecer los recursos necesarios para cada taller
-- Controlará la preferencia de asignación de talleres en función del número de veces que ya ha disfrutado del servicio.
-- .....
+- Permite registrarse e iniciar sesión.
+- Se podrán realizar búsquedas a través un buscador.
+- Se podrán filtrar las búsquedas por categoría, ubicación, precio y ubicación.
+- El usuario podrá añadir anuncios a favoritos, y quitar de favoritos.
+- El usuario podrá ver el detalle de un anuncio.
+- El usuario podrá ver y editar su perfil.
+- El usuario podrá ver el perfil de otro usuario.
+- El usuario podrá añadir anuncios(título, descripción, precio, categoría, ubicación e imágenes).
+- El usuario podrá editar o borrar sus anuncios.
+- Los usuarios contactarán entre sí con los datos de los ofertantes(núm. teléfono).
