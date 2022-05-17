@@ -1,0 +1,92 @@
+<section class="vh-75">
+  <div class=" py-1 h-75">
+    <div class="row d-flex justify-content-center align-items-center h-75 w-100  ms-auto me-auto">
+      <div class="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
+        <div style="border: 1px solid #74bb11ad;" class="rounded-3 shadow p-3 mb-5 bg-body">
+          <div class="card-body p-5 text-center">
+
+            <h2 class="mb-3 gray5">Únete ahora a FlashJob</h2>
+
+            <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="submitFormulario()" class="row g-3">
+
+              <!-- Nombre -->
+              <div class="col-md-4">
+                <label class="w-100 p-1 text-start gray5">Nombre</label>
+                <input type="text" class="form-control" formControlName="firstName" placeholder="Nombre">
+                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('firstName')">
+                  Solo letras
+                </span> -->
+              </div>
+
+              <!-- Apellidos -->
+              <div class="col-md-8">
+                <label class="w-100 p-1 text-start gray5">Apellidos</label>
+                <input type="text" class="form-control" formControlName="lastName" placeholder="Apellidos">
+                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('lastName')">
+                  Debes introducir dos apellidos
+                </span> -->
+              </div>
+
+              <!-- Email -->
+              <div class="col-md-8">
+                <label class="w-100 p-1 text-start gray5">Correo electrónico</label>
+                <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('email')">
+                  {{ emailErrorMsg }}
+                </span> -->
+
+              </div>
+
+              <!-- Telefono -->
+              <div class="col-md-4">
+                <label class="w-100 p-1 text-start gray5">Teléfono</label>
+                <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Teléfono">
+                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('phoneNumber')">
+                  Deben ser 9 dígitos.
+                </span> -->
+              </div>
+
+              <!-- Password -->
+              <div class="col-md-6">
+                <label class="w-100 p-1 text-start gray5">Contraseña</label>
+                <input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('password')">
+                  La contraseña debe de ser mayor de 6 caracteres.
+                </span> -->
+              </div>
+
+              <!-- Password2 -->
+              <div class="col-md-6">
+                <label class="w-100 p-1 text-start gray5">Confirma la contraseña</label>
+                <input type="password" class="form-control" formControlName="password2"
+                  placeholder="Confirma contraseña">
+                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('password2')">
+                  No coindicen las contraseñas
+                </span> -->
+              </div>
+
+              <!-- Direcccion -->
+              <div class="col-md-12 text-start">
+                <label for="inputEmail4" class="form-label ms-2 gray5">Dirección</label>
+                <input type="text" class="form-control" formControlName="location" placeholder="Dirección">
+                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('location')">
+                  La dirección es requerida
+                </span> -->
+              </div>
+
+              <button class="btn lightGreenBack text-white btn-block" type="submit"
+                [disabled]="miFormulario.valid">Registrarme</button>
+
+            </form>
+
+            <div class="mt-3">
+              <a class="text-decoration-none green" [routerLink]="['/login']">Iniciar Sesión</a>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

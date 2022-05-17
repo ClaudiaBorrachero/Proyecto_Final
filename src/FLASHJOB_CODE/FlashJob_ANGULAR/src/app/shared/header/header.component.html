@@ -1,0 +1,44 @@
+<!-- Barra de navegación -->
+<header class="w-100 fixed-top" style="z-index: 3; background-color: white;">
+  <nav class="navbar navbar-expand-lg p-2">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand me-5 d-none d-md-block d-lg-block d-xl-block">
+        <h1 class="green fw-bold fst-italic" style="text-shadow: 1px 1px 2px #EA462F;">FlashJob</h1>
+      </a>
+      <div class="d-flex d-md-none d-lg-none d-xl-none row w-100 text-center">
+        <h1 class="col-4 green fw-bold fst-italic" style="text-shadow: 1px 1px 2px #EA462F;">FlashJob</h1>
+        <app-search class="col-8"></app-search>
+      </div>
+
+      <app-search class="w-75 d-none d-sm-none d-md-block d-lg-none d-xl-none"></app-search>
+      <app-search class="w-50 d-none d-lg-block d-xl-none"></app-search>
+      <app-search class="w-100 d-none d-lg-none d-xl-block"></app-search>
+
+      <ul *ngIf="userRegistered.email==''"
+        class="d-none d-sm-none d-md-none d-lg-flex me-auto mb-2 mb-lg-0 w-50 justify-content-evenly">
+        <li class="nav-item d-flex">
+          <a class="nav-link gray7" aria-current="page" [routerLink]="['/login']">
+            <h5>Iniciar Sesión</h5>
+          </a>
+        </li>
+        <li class="d-flex d-md-none d-lg-flex d-xl-flex">
+          <a class="btn text-white pinkBack" aria-current="page" [routerLink]="['/register']">
+            <h5>Quiero unirme</h5>
+          </a>
+        </li>
+      </ul>
+
+
+      <ul *ngIf="userRegistered.email!=''" class="d-none d-sm-none d-md-none d-lg-flex me-auto mb-2 mb-lg-0 w-50 justify-content-evenly">
+        <li class="nav-item d-flex">
+          <a href="" class="nav-link gray7 mt-2 fs-5" [routerLink]="['/add_job']">Subir anuncio</a>
+        </li>
+        <li class="nav-item d-flex">
+          <i class="bi bi-person-circle green fs-1"></i>
+        </li>
+      </ul>
+
+    </div>
+
+  </nav>
+</header>

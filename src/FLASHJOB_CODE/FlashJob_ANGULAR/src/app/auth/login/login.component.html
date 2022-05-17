@@ -1,0 +1,49 @@
+<section class="vh-75">
+  <div class="container py-1 h-75">
+    <div class="row d-flex justify-content-center align-items-center h-75">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div style="border: 1px solid #74bb11ad;" class="rounded-3 shadow p-3 mb-5 bg-body">
+          <div class="card-body p-5 pt-3 text-center">
+            <h2 class="mb-3 mt-0 pt-0 gray5">Iniciar Sesión</h2>
+
+            <form autocomplete="off" #miFormulario="ngForm" (ngSubmit)="submitFormulario()">
+              <div class="form-outline mb-4">
+                <label class="w-100 p-1 text-start">Correo electrónico</label>
+                <input type="email" class="form-control" placeholder="Introduce tu email"
+                  [ngModel]="initForm.email" required [pattern]="emailPattern" id="email" name="email" />
+
+                <span class="form-text text-danger" *ngIf="emailValido()">
+                  Introduce un correo electrónico válido
+                </span>
+              </div>
+
+              <div class="form-outline mb-4">
+                <label class="w-100 p-1 text-start">Contraseña</label>
+                <input type="password" class="form-control" placeholder="Introduce tu contraseña"
+                  [ngModel]="initForm.password" required id="password" name="password" />
+
+                <span class="form-text text-danger" *ngIf="passValido()">
+                  La contraseña es requerida
+                </span>
+              </div>
+
+              <div class="text-center mb-2">
+                <span class="form-text text-danger" *ngIf="datosCorrectos">
+                  Usuario o Contraseña incorrecta
+                </span>
+              </div>
+
+              <button class="btn lightGreenBack text-white btn-block" type="submit">
+                Continuar
+              </button>
+            </form>
+
+            <div class="mt-1">
+              <a class="btn green" [routerLink]="['/register']">¿Aún no eres miembro? Únete ahora</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
