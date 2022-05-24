@@ -1,0 +1,40 @@
+  <div class="d-flex justify-content-center">
+    <h3 class="gray5">Job's recientes</h3>
+  </div>
+  <div
+    class="p-5 card-group d-flex justify-content-evenly row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-2" >
+
+    <div class="col mt-5" style="height: 370px;" *ngFor="let anuncio of this.anunciosRecientes" #elseBlock>
+      <div class="card cardAnuncio">
+        <div class="card-body p-3 pb-0">
+          <div class="d-flex row">
+            <div class="col-6 col-sm-8" >
+              <img
+              src="https://www.hola.com/imagenes/decoracion/20210513189473/plantas-sustituir-cesped-jardin-mc/0-951-526/alternativas-cesped-1-a.jpg"
+              alt="cesped" class=" p-2 pb-0 mb-1 img-fluid">
+            </div>
+            <div class="col-6 col-sm-4 navy">
+              <div class="d-flex justify-content-end pe-2"><i class="bi bi-heart corazonFavorito" ></i></div>
+              <div class="d-flex justify-content-center" ><h4 class="text-white rounded text-center w-100 greenBack">{{anuncio.price}}€</h4></div>
+              <!-- <div class="d-flex justify-content-center w-100" ><h5 class=" letraResponsivaTipoPrecio">{{anuncio.tipoPrecio}}</h5></div> -->
+            </div>
+          </div>
+          <div class=" p-3  pt-0 navy">
+            <h3 class="card-title text-start letraResponsiva textoConPuntosTitulo">{{anuncio.title}}</h3>
+            <p class="card-text letraResponsivaDescripcion textoConPuntos" style="  text-overflow: ellipsis; overflow: hidden;" >
+              {{anuncio.description}}
+
+            </p>
+            <hr>
+            <h5 class="w-100 text-center letraResponsivaUbicacion"><i class="bi bi-geo-alt-fill"></i>{{anuncio.location}}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="d-flex justify-content-center p-5">
+    <a href="#" class="text-decoration-none gray7">Ver más...</a>
+  </div>

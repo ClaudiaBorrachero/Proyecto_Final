@@ -6,12 +6,12 @@
         <div class="container h-75">
           <div class="row d-flex justify-content-center align-items-center h-75">
             <div class="col-12 col-sm-12 col-md-10 col-lg-6 col-xl-5 w-100">
-              <div class="card shadow-2-strong border-3 w-100" style="border-radius: 1rem;">
+              <div style="border: 1px solid #74bb11ad;" class="rounded-3 shadow p-3 mb-5 bg-body">
                 <div class="card-body p-5 text-center">
 
 
 
-                  <form autocomplete="off"  [formGroup]="miFormulario" class="row g-3">
+                  <form autocomplete="off"  [formGroup]="miFormulario" (ngSubmit) = "submitFormulario()" class="row g-3">
 
                   <!-- Titulo -->
                   <div class="col-md-12 text-start">
@@ -55,34 +55,34 @@
 
                   </div>
 
-                  <!-- Imagenes -->
+                  <!-- Ubicación -->
+                  <div class="col-md-12 text-start">
+                     <label class="form-label ms-2">Ubicación</label>
+                     <input type="test" class="form-control" formControlName="ubicacion" placeholder="Ubicación">
+
+
+                   </div>
+
+                  <!-- Imágenes -->
                   <div class="col-md-12 text-start row">
-                      <label class="form-label ms-2 mt-3 text-start">Subir imágenes</label>
+                      <label class="form-label mt-3 text-start">Subir imágenes</label>
                     <div class="image-upload col-md-2">
                         <label for="file-input">
                             <i class="bi bi-image navy" alt ="Click aquí para subir tu foto" title ="Click aquí para subir tu foto" ></i>
                         </label>
 
-                        <input id="file-input" type="file" formControlName="imagen"/>
-                        <!-- <app-upload-image></app-upload-image> -->
+                        <input id="file-input" type="file" formControlName="imagen" (change)="selectFile($event)"/>
 
                     </div>
 
 
                   </div>
-                 <!-- Ubicación -->
-                 <div class="col-md-12 text-start">
-                    <label class="form-label ms-2">Ubicación</label>
-                    <input type="test" class="form-control" formControlName="ubicacion" placeholder="Ubicación">
 
-
-                  </div>
-
-                  <button class="btn btn-primary btn-lg btn-block w-50 ms-auto me-auto" type="submit" >{{botonRegistro}}</button>
+                  <button class="btn btn-primary btn-lg btn-block w-50 ms-auto me-auto" type="submit">{{botonRegistro}}</button>
 
                 </form>
 
-                  <hr class="my-4">
+                  <!-- <hr class="my-4"> -->
                 </div>
               </div>
             </div>

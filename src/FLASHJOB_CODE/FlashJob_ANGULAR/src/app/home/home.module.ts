@@ -1,3 +1,4 @@
+import { CardRecientesComponent } from './card-recientes/card-recientes.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
@@ -11,7 +12,8 @@ import {ButtonModule} from 'primeng/button';
 @NgModule({
   declarations: [
     HomeComponent,
-    CarruselComponent
+    CarruselComponent,
+    CardRecientesComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import {ButtonModule} from 'primeng/button';
     CarruselComponent,
     BrowserAnimationsModule,
     ToastModule,
-    ButtonModule
+    ButtonModule,
+    CardRecientesComponent
   ]
 })
 export class HomeModule { }

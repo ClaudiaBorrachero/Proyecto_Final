@@ -5,7 +5,7 @@ import { AuthGuard } from '../services/auth-guard.service';
 
 const routes: Routes = [
 
-    { path: 'addJob',canActivate:[AuthGuard], component: Add_JobComponent },
+    { path: 'add_job',canActivate:[AuthGuard], component: Add_JobComponent },
 
 ];
 

@@ -2,6 +2,7 @@ package org.iesalixar.servidor.controller;
 
 import java.util.List;
 
+
 import org.iesalixar.servidor.error.TokenInvalidException;
 import org.iesalixar.servidor.model.Category;
 import org.iesalixar.servidor.model.Job;
@@ -34,10 +35,13 @@ public class MainController {
 	@GetMapping("/categorias")
 	public ResponseEntity<List<Category>> showCategories(){
 		if (categoryService.showCategories().isEmpty()) {
+			System.out.println("se queda aqui");
+			
 			throw new RuntimeException("Error");
 		} else {
-			List<Category> categories = categoryService.showCategories();
-			return ResponseEntity.ok(categories);	
+			System.out.println("se queda aqui2");
+//			List<Category> categories = categoryService.showCategories();
+			return ResponseEntity.ok(categoryService.showCategories());	
 		}
 	}
 	
@@ -67,20 +71,31 @@ public class MainController {
 	 *         que el usuario no esté logueado y error correspondiente en caso de
 	 *         que no se pueda crear debido a campos invalidos
 	 */
-//	@PostMapping("/anuncio")
-//	public ResponseEntity<Job> addJob(@RequestParam MultipartFile file, @RequestParam String titulo,
-//			@RequestParam String categoria, @RequestParam String precio, @RequestParam String tipoPrecio,
-//			@RequestParam String descripcion, @RequestParam String ubicacion) {
-//
-//		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	@PostMapping("/anuncio")
+	public ResponseEntity<Job> addJob(@RequestParam MultipartFile file, @RequestParam String title,
+			@RequestParam String category, @RequestParam String price,
+			@RequestParam String description, @RequestParam String location) {
+
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		if (email != null && usuarioService.findByEmail(email).orElse(null) != null) {
-//
-//			return new ResponseEntity<Job>(jobService.addJob(email, titulo, categoria, precio,
-//					tipoPrecio, descripcion, ubicacion, file), HttpStatus.CREATED);
-//
-//		} else {
-//			throw new TokenInvalidException();
-//		}
-//	}
+		if(usuarioService.findByEmail(email)!= null) {
+			return new ResponseEntity<Job>(jobService.addJob(email, title, description, price,
+					category, location, file), HttpStatus.CREATED);
+
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
+	/**
+	 * Metodo que devuelve todos los anuncios recientes, con un máximo de 6 anuncios
+	 * 
+	 * @return lista de anuncios recientes
+	 */
+	@GetMapping("anuncios/anuncios-recientes")
+	public ResponseEntity<List<Job>> mostrarAnunciosRecientes() {
+		return ResponseEntity.ok(jobService.showRecentJobs());
+
+	}
 	
 }

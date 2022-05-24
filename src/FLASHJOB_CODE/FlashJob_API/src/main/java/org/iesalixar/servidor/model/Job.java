@@ -14,6 +14,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="jobs")
 public class Job implements Serializable{
@@ -30,12 +32,13 @@ public class Job implements Serializable{
 	private String description;
 		
 	@Column(name="price", nullable=false)
-	private int price;
+	private double price;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Category categoryJ;
 	
-	@Column(name="location", nullable=false)
+	@Column(name="location")
 	private String location;
 	
 	@ManyToOne(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
@@ -60,7 +63,7 @@ public class Job implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Job(String title, String description, int price, Category categoryJ) {
+	public Job(String title, String description, double price, Category categoryJ) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -92,11 +95,11 @@ public class Job implements Serializable{
 		this.description = description;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 

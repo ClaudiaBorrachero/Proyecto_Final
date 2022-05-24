@@ -26,15 +26,14 @@ export interface Usuario {
 
 export interface Anuncio {
   id?:           number;
-  titulo?:       string;
-  precio?:       number;
-  descripcion?:  null | string;
-  categoria?:    string;
-  finalizado?:   boolean;
-  fechaAnuncio?: Date;
-  fechaFin?:     null | Date;
-  tipoPrecio?:   string;
-  autorAnuncio?: Usuario;
-  ubicacion?: string;
-  comentario?: any;
+  title?:       string;
+  price?:       number;
+  description?:  null | string;
+  category?:    string;
+  finished?:   boolean;
+  job_date?: Date;
+  // fechaFin?:     null | Date;
+  // tipoPrecio?:   string;
+  user_id?: Usuario;
+  location?: string;
 }
