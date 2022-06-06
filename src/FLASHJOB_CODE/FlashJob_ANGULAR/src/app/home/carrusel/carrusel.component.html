@@ -1,7 +1,7 @@
-<div class="p-5 content-section implementation carousel-demo">
+<div class="p-5 content-section implementation carousel-demo my-3">
   <div class="card" style="border: 0px">
-    <p-carousel [value]="listaCategorias" styleClass="custom-carousel" [numVisible]="6" [numScroll]="1"
-      [circular]="false" [autoplayInterval]="2000" [responsiveOptions]="responsiveOptions" [showIndicators]="false">
+    <p-carousel class="back" [value]="listaCategorias" styleClass="custom-carousel" [numVisible]="6" [numScroll]="1"
+      [circular]="true" [autoplayInterval]="1000" [responsiveOptions]="responsiveOptions" [showIndicators]="false">
       <ng-template let-categoria pTemplate="item">
         <div class="item text-center">
           <a href="#" class="text-decoration-none text-center">

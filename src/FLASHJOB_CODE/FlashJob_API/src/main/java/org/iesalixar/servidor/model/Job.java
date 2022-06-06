@@ -15,10 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name="jobs")
-public class Job implements Serializable{
+public class Job implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +58,7 @@ public class Job implements Serializable{
 	@Column(name="jobDate")
 	private LocalDateTime jobDate;
 	
+	@Lob
 	private byte[] file;
 			
 	

@@ -1,3 +1,4 @@
+import { AnuncioModule } from './anuncio/anuncio.module';
 import { AuthGuard } from './services/auth-guard.service';
 import { ProfileModule } from './profile/profile.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './auth/auth.module';
 
 
+
 @NgModule({
   declarations: [
     AppComponent
@@ -28,7 +30,8 @@ import { AuthModule } from './auth/auth.module';
     HomeModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    AnuncioModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

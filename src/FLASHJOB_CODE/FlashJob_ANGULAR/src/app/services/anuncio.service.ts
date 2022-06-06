@@ -1,3 +1,5 @@
+import { Categoria } from './../interfaces/interface';
+import { Byte } from '@angular/compiler/src/util';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
@@ -53,5 +55,59 @@ export class AnuncioService {
     const url = `${this.baseUrl}/anuncios/anuncios-recientes`;
     return this.http.get<Anuncio[]>(url);
   }
+
+  /**
+   * Método para realizar las busqueda de anuncios, hará una llamada a la API con todos los parámetros y recibira una lista de anuncios
+   * con los anuncios que se correspondan con los filtros seleccionados
+   * @param termino
+   * @param categoria
+   * @param rangoPrecio
+   * @param orden
+   * @returns
+   */
+   buscarAnuncio(termino: string, categoria:string, rangoPrecio:number[], orden:string){
+    const url = `${this.baseUrl}/anuncios/?termino=${termino}&categoria=${categoria}&rangoPrecio=${rangoPrecio}&orden=${orden}`;
+    return this.http.get<Anuncio[]>(url);
+  }
+
+  /**
+ * Método para convertir un array de bytes en una url correspondiente a una imagen
+ * @param file El parametro de tipo byte que le pasamos para que lo convierta en una url
+ * @returns url | null
+ */
+  getImage(file: Byte[]) {
+    if(file != null){
+      const base64String = btoa(
+        String.fromCharCode(...new Uint8Array(file))
+      );
+      const source = `data:image/png;base64,${base64String}` + file;
+      return source;
+    }
+    else{
+      return null;
+    }
+  }
+
+  /**
+ * Método para mostrar un anuncio concreto, le pasamos un id de anuncio y hara la llamada a la API, la cual nos dará el anuncio correspondiente
+ * o un error
+ * @param id
+ * @returns
+ */
+mostrarAnuncioDetalle(id: any){
+
+  const url = `${this.baseUrl}/anuncio/${id}`;
+  return this.http.get<Anuncio>(url);
+}
+
+/**
+ * Método para mostrar todos los anuncios siendo admin
+ */
+mostrarAnunciosAdmin(){
+  const headers = this.cargarHeaders();
+  const url = `${this.baseUrl}/anuncio/todos`;
+  return this.http.get<Anuncio[]>(url, {headers});
+
+}
 
 }

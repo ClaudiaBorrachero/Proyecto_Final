@@ -41,8 +41,9 @@ public class AuthController {
     	if(userRepo.findByEmail(user.getEmail()).orElse(null)==null) {
     		String encodedPass = passwordEncoder.encode(user.getPassword());
     		user.setPassword(encodedPass);
+    		user.setRole(user.getRole());
     		user = userRepo.save(user);
-    		String token = jwtUtil.generateToken(user.getEmail());
+    		String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
     		return Collections.singletonMap("jwt_token", token);
     	}
     	else {
@@ -58,7 +59,9 @@ public class AuthController {
 
             authManager.authenticate(authInputToken);
 
-            String token = jwtUtil.generateToken(body.getEmail());
+            String role = userService.findByEmail(body.getEmail()).getRole();
+            String token = jwtUtil.generateToken(body.getEmail(), role);
+            System.out.println(role);
             return Collections.singletonMap("jwt_token", token);
         }catch (AuthenticationException authExc){
         	throw new InvalidLogin();

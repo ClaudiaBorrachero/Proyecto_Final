@@ -17,25 +17,42 @@
       <ul *ngIf="userRegistered.email==''"
         class="d-none d-sm-none d-md-none d-lg-flex me-auto mb-2 mb-lg-0 w-50 justify-content-evenly">
         <li class="nav-item d-flex">
-          <a class="nav-link gray7" aria-current="page" [routerLink]="['/login']">
-            <h5>Iniciar Sesión</h5>
+          <a class="nav-link gray7 fs-5" aria-current="page" [routerLink]="['/login']">
+            Iniciar Sesión
           </a>
         </li>
         <li class="d-flex d-md-none d-lg-flex d-xl-flex">
-          <a class="btn text-white pinkBack" aria-current="page" [routerLink]="['/register']">
-            <h5>Quiero unirme</h5>
+          <a class="btn text-white pinkBack fs-5" aria-current="page" [routerLink]="['/register']">
+            Quiero unirme
           </a>
         </li>
       </ul>
 
 
-      <ul *ngIf="userRegistered.email!=''" class="d-none d-sm-none d-md-none d-lg-flex me-auto mb-2 mb-lg-0 w-50 justify-content-evenly">
+      <ul *ngIf="userRegistered.email!=''"
+        class="d-none d-sm-none d-md-none d-lg-flex me-auto mb-2 mb-lg-0 w-50 justify-content-evenly">
         <li class="nav-item d-flex">
-          <a href="" class="nav-link gray7 mt-2 fs-5" [routerLink]="['profile/add_job']">Subir anuncio</a>
+          <a href="" class="nav-link gray7 mt-3 fs-5" [routerLink]="['profile/add_job']">Subir anuncio</a>
         </li>
-        <li class="nav-item d-flex">
-          <i class="bi bi-person-circle green fs-1"></i>
-        </li>
+
+        <div class="dropdown">
+          <button [routerLink]="['profile/mi_perfil']" class="btn" type="button" id="dropdownMenu2"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle green fs-1"></i>
+          </button>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <li><a class="dropdown-item" href="#" [routerLink]="['profile/mi_perfil']">Mi Perfil</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a href="#" class="dropdown-item gray6 text-decoration-none">Mis Job's</a></li>
+            <li><a href="#" class="dropdown-item gray6 text-decoration-none">Mis Favoritos</a></li>
+            <li><a href="#" class="dropdown-item gray6 text-decoration-none">Visualizar perfil público</a></li>
+            <li class="mt-5"><a href="#" class="green text-decoration-none"><i class="bi bi-door-open green"></i>Cerrar
+                Sesión</a></li>
+          </ul>
+        </div>
+
       </ul>
 
     </div>

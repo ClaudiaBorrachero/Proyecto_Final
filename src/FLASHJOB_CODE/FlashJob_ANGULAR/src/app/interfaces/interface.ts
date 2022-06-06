@@ -1,3 +1,5 @@
+import { Byte } from "@angular/compiler/src/util";
+
 export interface Categoria {
   name: string;
   icono: string;
@@ -31,9 +33,10 @@ export interface Anuncio {
   description?:  null | string;
   category?:    string;
   finished?:   boolean;
-  job_date?: Date;
+  jobDate?: Date;
   // fechaFin?:     null | Date;
   // tipoPrecio?:   string;
+  file?: Byte[];
   user_id?: Usuario;
   location?: string;
 }

@@ -2,8 +2,10 @@ package org.iesalixar.servidor.services;
 
 import java.util.List;
 
+
 import org.iesalixar.servidor.model.Job;
 import org.iesalixar.servidor.model.User;
+import org.iesalixar.servidor.repository.JobRepository;
 import org.iesalixar.servidor.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Autowired
 	UsuarioRepository userRepo;
+	@Autowired
+	JobRepository jobRepo;
+	
 	
 	@Override
 	public User insertUsuario(User usuario) {		
@@ -34,11 +39,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return null;
 	}
 
-//	@Override
-//	public List<Job> showJobs(String userName) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public List<Job> showJobsUser(String email) {
+		User nuevoUsuario = userRepo.findByEmail(email).orElse(null);
+		List<Job>listaAnuncios = nuevoUsuario.getJob();
+		return listaAnuncios;
+	}
 //
 //	@Override
 //	public List<Job> showFinishedJobs(String userName) {
@@ -51,6 +57,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
+
+	@Override
+	public List<Job> showAllJobsAdmin() {		
+		return jobRepo.findAll();
+	}
 
 	
 }

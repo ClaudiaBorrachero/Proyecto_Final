@@ -1,3 +1,5 @@
+import { Usuario } from './../../interfaces/interface';
+import { Byte } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Anuncio } from 'src/app/interfaces/interface';
@@ -15,9 +17,38 @@ export class CardRecientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarAnunciosRecientes();
+    this.onCheckUser();
   }
 
   anunciosRecientes:Anuncio[]=[];
+  public isLogged : boolean = false;
+  userRegistered : Usuario ={
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    location: ''
+  }
+
+  onCheckUser():void{
+    this.loginService.validarToken().subscribe({
+
+      next: resp => {
+        this.userRegistered = resp;
+      }, error(error){
+
+      }
+
+    })
+  }
+
+  /**
+   * Metodo que hace la llamada a getImagen del servicio y transforma un array de bytes en una url correspondiente a una imagen
+   */
+   getImage(file: Byte[]){
+     return this.anuncioService.getImage(file);
+   }
 
   /**
    * Metodo que hace la llamada para cargar los anuncios recientes

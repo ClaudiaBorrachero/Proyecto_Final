@@ -43,7 +43,7 @@ export class Add_JobComponent implements OnInit {
     // file: ['', [ Validators.required, Validators.pattern(this.ValidatorRegistroService.nombrePattern)]  ],
     location: ['' ],
     id:[''],
-    imagen:['']
+    file:['']
   });
 
   ngOnInit(): void {
@@ -56,7 +56,7 @@ export class Add_JobComponent implements OnInit {
       description: '',
       location: '',
       id:'',
-      imagen:''
+      file:''
     })
 
     this.titulo = "Añade un nuevo Job";
@@ -86,9 +86,9 @@ export class Add_JobComponent implements OnInit {
 
         const file: File | null = this.selectedFiles.item(0);
         if (file) {
-      this.currentFile = file;
-      let respuesta: LoginRespuesta = {};
-      let solucion: string;
+          this.currentFile = file;
+          let respuesta: LoginRespuesta = {};
+          let solucion: string;
       const anuncio = {
         "title": this.miFormulario.get("title")?.value,
         "category": this.miFormulario.get("category")?.value,

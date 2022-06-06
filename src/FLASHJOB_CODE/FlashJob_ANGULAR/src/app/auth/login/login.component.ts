@@ -55,7 +55,7 @@ login(){
             respuesta = resp;
             if(respuesta.jwt_token != null){
               localStorage.setItem('jwt', respuesta.jwt_token);
-              this.router.navigate(['home']);
+              location.replace('home');
               solucion = "true";
             }
           },

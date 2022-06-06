@@ -8,7 +8,8 @@ import org.iesalixar.servidor.model.User;
 public interface UsuarioService {
 
 	public User findByEmail(String email);
-//	public List<Job> showJobs(String userName);
+	public List<Job> showJobsUser(String email);
+	public List<Job> showAllJobsAdmin();
 //	public List<Job> showFinishedJobs(String userName);
 //	public List<Job> showRequestedJobs(String userName);
 	
