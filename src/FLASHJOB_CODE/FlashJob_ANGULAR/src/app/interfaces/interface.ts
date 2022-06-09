@@ -37,6 +37,6 @@ export interface Anuncio {
   // fechaFin?:     null | Date;
   // tipoPrecio?:   string;
   file?: Byte[];
-  user_id?: Usuario;
+  user?: Usuario;
   location?: string;
 }

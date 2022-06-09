@@ -27,7 +27,7 @@
           <li><a href="#" *ngIf="findRolUser() === 'user'" class="gray6 text-decoration-none">Mis Favoritos</a></li>
           <li><a href="#" *ngIf="findRolUser() === 'user'" class="gray6 text-decoration-none">Visualizar perfil público</a></li>
           <li><a href="#" *ngIf="findRolUser() === 'admin'" [routerLink]="['mis_jobs']" class="gray6 text-decoration-none">Lista de Job's</a></li>
-          <li><a href="#" *ngIf="findRolUser() === 'admin'" class="gray6 text-decoration-none">Lista de Usuarios</a></li>
+          <li><a href="#" *ngIf="findRolUser() === 'admin'" [routerLink]="['usersList']" class="gray6 text-decoration-none">Lista de Usuarios</a></li>
           <li class="mt-5"><a (click)="cerrarSesion()" href="#" class="green text-decoration-none"><i class="bi bi-door-open green"></i>
             Cerrar Sesión</a></li>
         </ul>

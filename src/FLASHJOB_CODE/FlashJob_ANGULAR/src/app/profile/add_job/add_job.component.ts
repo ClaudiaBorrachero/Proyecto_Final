@@ -1,3 +1,4 @@
+import { Anuncio } from 'src/app/interfaces/interface';
 import Swal from 'sweetalert2';
 import { Categoria, LoginRespuesta } from './../../interfaces/interface';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -32,7 +33,7 @@ export class Add_JobComponent implements OnInit {
   categoriaDefecto:string="Todas las categorias"
   // tipoPrecioDefecto:string="Por horas";
   selectedFiles?: FileList;
-  currentFile?: File;
+  currentFile?: any = "NotSelected";
 
   miFormulario: FormGroup = this.fb.group({
     title: ['', [Validators.required]],
@@ -87,7 +88,9 @@ export class Add_JobComponent implements OnInit {
         const file: File | null = this.selectedFiles.item(0);
         if (file) {
           this.currentFile = file;
-          let respuesta: LoginRespuesta = {};
+        }
+      }
+          let respuesta: Anuncio = {};
           let solucion: string;
       const anuncio = {
         "title": this.miFormulario.get("title")?.value,
@@ -107,6 +110,7 @@ export class Add_JobComponent implements OnInit {
         // this.anuncioEditadoCorrectamente();
         console.log(resp);
         this.miFormulario.reset()
+        location.replace(`anuncio-detalle/${respuesta.id}`);
       //  if(respuesta.jwt_token != null){
       //    localStorage.setItem('jwt', respuesta.jwt_token);
       //    this.router.navigate(['home']);
@@ -125,9 +129,9 @@ export class Add_JobComponent implements OnInit {
       this.currentFile = undefined;
     },
   })
-  }
+  // }
   this.selectedFiles = undefined;
-  }
+  // }
     }
 
   /**

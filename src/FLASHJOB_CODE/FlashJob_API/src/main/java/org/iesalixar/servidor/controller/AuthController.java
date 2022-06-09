@@ -38,14 +38,21 @@ public class AuthController {
 	
 	@PostMapping("/register")
     public Map<String, Object> registerHandler(@RequestBody User user){
+		
     	if(userRepo.findByEmail(user.getEmail()).orElse(null)==null) {
     		String encodedPass = passwordEncoder.encode(user.getPassword());
     		user.setPassword(encodedPass);
-    		user.setRole(user.getRole());
+    		if (user.getEmail().equals("admin@gmail.com")) {
+        		user.setRole("admin");
+        		user.setRole(user.getRole());
+        	} else {
+	    		user.setRole("user");
+	    		user.setRole(user.getRole());
+        	}
     		user = userRepo.save(user);
     		String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
     		return Collections.singletonMap("jwt_token", token);
-    	}
+    	} 
     	else {
     		throw new EmailAlreadyUsed();
     	}

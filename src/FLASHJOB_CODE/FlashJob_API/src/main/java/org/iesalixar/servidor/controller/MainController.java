@@ -6,6 +6,7 @@ import java.util.List;
 import org.iesalixar.servidor.error.JobNotFound;
 import org.iesalixar.servidor.error.NotFound;
 import org.iesalixar.servidor.error.TokenInvalidException;
+import org.iesalixar.servidor.error.UserNotFound;
 import org.iesalixar.servidor.model.Category;
 import org.iesalixar.servidor.model.Job;
 import org.iesalixar.servidor.model.User;
@@ -17,8 +18,10 @@ import org.iesalixar.servidor.services.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,7 +95,25 @@ public class MainController {
 		if (usuarioService.findByEmail(email) != null) {
 			return new ResponseEntity<Job>(
 					jobService.addJob(email, title, description, price, category, location, file), HttpStatus.CREATED);
+			
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
+	@PostMapping("/anuncio/defaultImage")
+	public ResponseEntity<Job> addJob(@RequestParam String file, @RequestParam String title,
+			@RequestParam String category, @RequestParam String price, @RequestParam String description,
+			@RequestParam String location) {
 
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if (email != null && usuarioService.findByEmail(email).orElse(null) != null) {
+		System.out.println(price);
+
+		if (usuarioService.findByEmail(email) != null) {
+			return new ResponseEntity<Job>(
+					jobService.addJobNoImg(email, title, description, price, category, location, file), HttpStatus.CREATED);
+			
 		} else {
 			throw new TokenInvalidException();
 		}
@@ -171,7 +192,88 @@ public class MainController {
 		} else {
 			throw new TokenInvalidException();
 		}
+	}
+	
+	/**
+	 * Este metodo sirve para borrar anuncio por id, en caso que el token o el id
+	 * del anuncio sean inválidos se devolverá la exepcion correspondiente
+	 * 
+	 * @param idAnuncio
+	 * @return no content es caso de que se borre y exepcion correspondiente en caso
+	 *         que falle
+	 */
+	@DeleteMapping("/anuncio/{id}")
+	public ResponseEntity<?> borrarAnuncio(@PathVariable(value = "id") Long idAnuncio) {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (email != null && userRepo.findByEmail(email).orElse(null) != null) {
+			if (jobRepo.existsById(idAnuncio)) {
 
+				jobService.removeJob(idAnuncio, email);
+				return ResponseEntity.noContent().build();
+			} else {
+				throw new JobNotFound(idAnuncio);
+			}
+
+		} else {
+			throw new TokenInvalidException();
+		}
 	}
 
+	
+	/**
+	 * Metodo que devuelve todos los users 
+	 * 
+	 * @return lista o exepcion en caso de token invalido
+	 */
+	@GetMapping("usuario/todos")
+	public ResponseEntity<List<User>> mostrarUsersAdmin() {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (email != null && userRepo.findByEmail(email).orElse(null) != null) {
+			return ResponseEntity.ok(usuarioService.showAllUsersAdmin());
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
+	
+	/**
+	 * Metodo que devuelve todos los anuncios que hay en la lista ListaOfertados
+	 * 
+	 * @return lista o exepcion en caso de token invalido
+	 */
+	@GetMapping("profile/mis_jobs")
+	public ResponseEntity<List<Job>> mostrarAnuncios() {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (email != null && userRepo.findByEmail(email).orElse(null) != null) {
+			return ResponseEntity.ok(usuarioService.showJobsUser(email));
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
+	
+	/**
+	 * Este metodo sirve para borrar user por id
+	 * 
+	 * @param idAnuncio
+	 * @return no content es caso de que se borre y exepcion correspondiente en caso
+	 *         que falle
+	 */
+	@DeleteMapping("/usuario/{id}")
+	public ResponseEntity<?> borrarUsuario(@PathVariable(value = "id") Long idUsuario) {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (email != null && userRepo.findByEmail(email).orElse(null) != null) {
+			if (userRepo.existsById(idUsuario)) {
+
+				usuarioService.removeUser(idUsuario, email);
+				return ResponseEntity.noContent().build();
+			} else {
+				throw new UserNotFound(idUsuario);
+			}
+
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
 }

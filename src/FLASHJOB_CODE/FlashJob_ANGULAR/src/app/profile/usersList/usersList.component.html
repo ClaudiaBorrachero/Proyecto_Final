@@ -1,0 +1,30 @@
+<!-- TABLA PARA ROL ADMIN -->
+<p-table *ngIf="findRolUser() === 'admin'" [value]="listaUsersAdmin" #dt2 responsiveLayout="stack" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+[rowsPerPageOptions]="[5,10,20]">
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th></th>
+      <th pSortableColumn="firstName">Nombre <p-sortIcon field="firstName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="lastName">Apellidos <p-sortIcon field="lastName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-usuario let-columns="usuario">
+    <tr>
+      <td><i class="bi bi-person-circle green fs-1"></i></td>
+      <td class='textoConPuntos'><span class="p-column-title"
+          pSortableColumn="firstName"><strong>firstName</strong></span>{{usuario.firstName}}</td>
+      <td><span class="p-column-title"
+          pSortableColumn="lastName"><strong>lastName</strong></span>{{usuario.lastName}}</td>
+      <td><span class="p-column-title"
+          pSortableColumn="email"><strong>email</strong></span>{{usuario.email}}</td>
+      <td><i (click)="borrarUser(usuario.id)" class="pi pi-trash" style="font-size: 1rem"></i></td>
+    </tr>
+  </ng-template>
+
+</p-table>

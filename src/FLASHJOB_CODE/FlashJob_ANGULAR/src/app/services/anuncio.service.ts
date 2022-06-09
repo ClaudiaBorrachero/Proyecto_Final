@@ -31,8 +31,13 @@ export class AnuncioService {
    * @param user
    * @returns Un observable con el resultado de la petición
    */
-   addAnuncio(anuncio:Anuncio, file:File){
-    const url = `${this.baseUrl}/anuncio`;
+   addAnuncio(anuncio:Anuncio, file:any){
+    let url = `${this.baseUrl}/anuncio`;
+
+    if (file==="NotSelected") {
+      url = `${this.baseUrl}/anuncio/defaultImage`;
+    }
+
     const headers = this.cargarHeaders();
     console.log(anuncio.price!.toString())
     const formData: FormData = new FormData();
@@ -44,7 +49,7 @@ export class AnuncioService {
       formData.append('description', anuncio.description!);
       formData.append('location', anuncio.location!);
 
-      return this.http.post(url, formData, {headers});
+      return this.http.post<Anuncio>(url, formData, {headers});
   }
 
   /**
@@ -68,6 +73,17 @@ export class AnuncioService {
    buscarAnuncio(termino: string, categoria:string, rangoPrecio:number[], orden:string){
     const url = `${this.baseUrl}/anuncios/?termino=${termino}&categoria=${categoria}&rangoPrecio=${rangoPrecio}&orden=${orden}`;
     return this.http.get<Anuncio[]>(url);
+  }
+
+  /**
+   * Metodo para borrar un anuncio, le pasamos el id del anuncio a borrar y hará la llamada a la API
+   * @param idAnuncio
+   * @returns
+   */
+   borrarAnuncio(idAnuncio:number){
+    const url = `${this.baseUrl}/anuncio/${idAnuncio}`;
+    const headers = this.cargarHeaders();
+      return this.http.delete(url, {headers});
   }
 
   /**
@@ -98,6 +114,18 @@ mostrarAnuncioDetalle(id: any){
 
   const url = `${this.baseUrl}/anuncio/${id}`;
   return this.http.get<Anuncio>(url);
+}
+
+/**
+   * Método para pedir todas las categorias
+   * @returns lista con todas las categorias
+   */
+ misAnuncios(){
+  const url = `${this.baseUrl}/profile/mis_jobs`;
+
+  const headers = this.cargarHeaders();
+    return this.http.get<Anuncio[]>(url, {headers});
+
 }
 
 /**

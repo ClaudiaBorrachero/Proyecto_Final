@@ -56,7 +56,8 @@ public class User implements Serializable {
 //	private boolean active;
 	
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
+//	(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Job> job = new ArrayList<Job>();
 	
 	public User() {

@@ -1,6 +1,7 @@
-<p-table *ngIf="findRolUser() === 'admin'" [value]="listaAnunciosAdmin" #dt2 responsiveLayout="stack" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [rowsPerPageOptions]="[5,10,20]" [globalFilterFields]="['listaCategorias.nombre']">
-
+<!-- TABLA PARA ROL ADMIN -->
+<p-table *ngIf="findRolUser() === 'admin'" [value]="listaAnunciosAdmin" #dt2 responsiveLayout="stack"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[5,10,20]"
+  [globalFilterFields]="['listaCategorias.nombre']">
 
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -14,15 +15,14 @@
       <!-- <th pSortableColumn="fechaAnuncio">Fecha publicación<p-sortIcon field="fechaAnuncio"></p-sortIcon>
       </th> -->
       <th></th>
-      <th></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-anuncio let-columns="anuncio">
     <tr>
       <td *ngIf="getImage(anuncio.file)== null"><img src="../../../assets/img/default.png" alt="Imagen" width="70"
           style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
-      <td *ngIf="getImage(anuncio.file)!= null"><img src={{getImage(anuncio.file)}} alt="Imagen" width="70"
-          style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
+      <td *ngIf="getImage(anuncio.file)!= null"><img class="img-fluid" src={{getImage(anuncio.file)}} alt="Imagen"
+          width="70" style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]" class='textoConPuntos '><span class="p-column-title"
           pSortableColumn="titulo"><strong>Título</strong></span>{{anuncio.title}}</td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
@@ -32,9 +32,47 @@
       <!-- <td [routerLink]="['/anuncio-detalle', anuncio.id]" style="overflow: hidden;"><span class="p-column-title"
           pSortableColumn="fechaAnuncio"><strong>Fecha publicación</strong></span>{{anuncio.fechaAnuncio?.slice(0,10)}}
       </td> -->
-      <td></td>
-      <td></td>
+      <td><i (click)="borrarAnuncio(anuncio.id)" class="pi pi-trash" style="font-size: 1rem"></i></td>
     </tr>
   </ng-template>
-
 </p-table>
+<!-- Mensaje que se mostrará si no hay ningún job publicado -->
+<div *ngIf="this.listaAnunciosAdmin.length == 0 && findRolUser() === 'admin'" class="w-100 text-center gray6 mt-5">
+  <p>Aún no han publicado ningún job</p>
+</div>
+
+<!-- TABLA PARA ROL USER -->
+<p-table *ngIf="findRolUser() === 'user'" [value]="listaMisAnuncios" #dt2 responsiveLayout="stack"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[5,10,20]"
+  [globalFilterFields]="['listaCategorias.nombre']">
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th></th>
+      <th pSortableColumn="title">Título <p-sortIcon field="title"></p-sortIcon>
+      </th>
+      <th pSortableColumn="categoryJ">Categoría <p-sortIcon field="categoryJ"></p-sortIcon>
+      </th>
+      <th pSortableColumn="price">Precio <p-sortIcon field="price"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-anuncio let-columns="anuncio">
+    <tr>
+      <td *ngIf="getImage(anuncio.file)== null"><img src="../../../assets/img/default.png" alt="Imagen" width="70"
+          style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
+      <td *ngIf="getImage(anuncio.file)!= null"><img class="img-fluid" src={{getImage(anuncio.file)}} alt="Imagen"
+          width="70" style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
+      <td [routerLink]="['/anuncio-detalle', anuncio.id]" class='textoConPuntos '><span class="p-column-title"
+          pSortableColumn="titulo"><strong>Título</strong></span>{{anuncio.title}}</td>
+      <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
+          pSortableColumn="categoria"><strong>Categoría</strong></span>{{anuncio.categoryJ}}</td>
+      <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
+          pSortableColumn="precio"><strong>Precio</strong></span>{{anuncio.price}} €</td>
+    </tr>
+  </ng-template>
+</p-table>
+<!-- Mensaje que se mostrará si no hay ningún job publicado -->
+<div *ngIf="this.listaMisAnuncios.length == 0 && findRolUser() === 'user'" class="w-100 text-center gray6 mt-5">
+  <p>Aún no has publicado ningún job</p>
+</div>

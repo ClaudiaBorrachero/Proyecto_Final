@@ -1,10 +1,13 @@
 package org.iesalixar.servidor.services;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.iesalixar.servidor.error.CreateJobError;
+import org.iesalixar.servidor.error.JobNotFound;
 import org.iesalixar.servidor.model.Category;
 import org.iesalixar.servidor.model.Job;
 import org.iesalixar.servidor.model.User;
@@ -193,4 +196,68 @@ public class JobServiceImpl implements JobService{
 		return listaAnuncios;
 	}
 
+	
+	/**
+	 * Este método sirve para borrar un anuncio, para ello tenemos que eliminar el anuncio en cascada
+	 * @param idAnuncio
+	 * @param email
+	 */
+	@Override
+	public void removeJob(Long idAnuncio, String email) {
+		Job anuncioBorrar = jobRepo.getById(idAnuncio);
+		if(userRepo.findByEmail(email).orElse(null).getJob().contains(anuncioBorrar)) {
+			categoryRepo.getById(anuncioBorrar.getCategoryJ().getName()).getJobs().remove(anuncioBorrar);
+			User userDelete = userRepo.findByEmail(email).orElse(null);
+			userDelete.getJob().remove(anuncioBorrar);
+//			System.out.println("1");
+			jobRepo.deleteById(idAnuncio);
+//			System.out.println("2");
+			userRepo.save(userDelete);
+//			System.out.println("3");
+		}
+		else {
+			throw new JobNotFound(idAnuncio);
+		}
+	}
+
+	@Override
+	public Job addJobNoImg(String email, String title, String description, String price, String categoryJ,
+			String location, String file) {
+		System.out.println(price);
+		Double convertPrecio = Double.parseDouble(price);
+		if(title.isBlank() || title == null || convertPrecio < 0) {
+			throw new CreateJobError();
+		}
+		else {
+			System.out.println(categoryJ);
+			Category categoriaNueva = categoryRepo.findById(categoryJ).orElse(null);
+			Job nuevoAnuncio = new Job(title, description, convertPrecio, categoriaNueva);
+			nuevoAnuncio.setJobDate(null);
+			nuevoAnuncio.setLocation(location);
+			
+		
+		try {
+			byte[] defaultImage = Files.readAllBytes(Paths.get("src/main/resources/static/img/imagenload.png"));
+			nuevoAnuncio.setFile(defaultImage);
+		} catch (IOException e) {
+			System.out.println("salta error");
+			throw new CreateJobError();
+		}
+		
+			User usuario = userRepo.findByEmail(email).orElse(null);
+			categoriaNueva.getJobs().add(nuevoAnuncio);
+			usuario.getJob().add(nuevoAnuncio);
+			nuevoAnuncio.setUser(usuario);
+			System.out.println("boeobeo"+nuevoAnuncio);
+
+			jobRepo.save(nuevoAnuncio);
+			categoryRepo.save(categoriaNueva);
+			userRepo.save(usuario);
+			System.out.println("boeobeo"+nuevoAnuncio);
+			return nuevoAnuncio;
+		}
+	}
+
+	
+	
 }

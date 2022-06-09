@@ -36,7 +36,7 @@
           <div class="col-md-4">
             <label for="firstName" class="form-label ms-2">Nombre:</label>
             <input type="text" class="form-control" formControlName="firstName"
-              placeholder="{{usuarioRegistrado.firstName}}">
+              value="{{usuarioRegistrado.firstName}}">
             <span class="form-text text-danger" *ngIf="campoNoValido('firstName')">
               Solo letras
             </span>
@@ -46,7 +46,7 @@
           <div class="col-md-8">
             <label for="lastName" class="form-label ms-2">Apellidos:</label>
             <input type="text" class="form-control" formControlName="lastName"
-              placeholder="{{usuarioRegistrado.lastName}}">
+              value="{{usuarioRegistrado.lastName}}">
             <!-- <span class="form-text text-danger" *ngIf="campoNoValido('lastName')">
               Debes introducir dos apellidos
             </span> -->
@@ -55,7 +55,7 @@
           <!-- Email -->
           <div class="col-md-8">
             <label for="email" class="form-label ms-2">Correo electrónico:</label>
-            <input type="email" class="form-control" formControlName="email" placeholder="{{usuarioRegistrado.email}}">
+            <input type="email" class="form-control" formControlName="email" value="{{usuarioRegistrado.email}}">
             <span class="form-text text-danger" *ngIf="campoNoValido('email')">
               {{ emailErrorMsg }}
             </span>
@@ -66,7 +66,7 @@
           <div class="col-md-4">
             <label for="phoneNumber" class="form-label ms-2">Teléfono:</label>
             <input type="text" class="form-control" formControlName="phoneNumber"
-              placeholder="{{usuarioRegistrado.phoneNumber}}">
+              value="{{usuarioRegistrado.phoneNumber}}">
             <!-- <span class="form-text text-danger" *ngIf="campoNoValido('phoneNumber')">
               Deben ser 9 dígitos.
             </span> -->
@@ -96,7 +96,7 @@
           <div class="col-md-12 text-start">
             <label for="inputEmail4" class="form-label ms-2">Dirección:</label>
             <input type="text" class="form-control" formControlName="location"
-              placeholder="{{usuarioRegistrado.location}}">
+            value="{{usuarioRegistrado.location}}">
             <!-- <span class="form-text text-danger" *ngIf="campoNoValido('location')">
               La dirección es requerida
             </span> -->

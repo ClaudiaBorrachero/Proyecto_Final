@@ -8,45 +8,42 @@
             src="https://i.pinimg.com/originals/ba/d4/5a/bad45a40fa6e153ef8d1599ba875102c.png" alt="foto de perfil">
         </div>
         <h3 class="green text-center">
-          {{anuncioDetalle.user_id?.firstName?.charAt(0)?.toUpperCase()}}{{anuncioDetalle.user_id?.firstName?.slice(1)}}
-              {{anuncioDetalle.user_id?.lastName?.charAt(0)?.toUpperCase()}}</h3>
+          {{anuncioDetalle.user?.firstName?.charAt(0)?.toUpperCase()}}{{anuncioDetalle.user?.firstName?.slice(1)}}
+              {{anuncioDetalle.user?.lastName?.charAt(0)?.toUpperCase()}}</h3>
         <hr class="green">
         <div class="w-100 text-center">
           <a href="#" class="btn pinkBack text-white m-3">Solicitar Job</a>
       </div>
-        <!-- <ul class="gray6 py-3 fw-bold" style="list-style:none">
-          <li><a href="#" class="gray6 text-decoration-none">Mis Job's</a></li>
-          <li><a href="#" class="gray6 text-decoration-none">Mis Favoritos</a></li>
-        </ul> -->
       </div>
 
       <div class="col col-sm-12 col-md-7 col-lg-7 offset-md-1 offset-lg-1 rounded-3 shadow p-3 mb-5 bg-body"
         style="border: 1px solid #74bb11ad;">
 
-        <div class="row d-flex m-2 ms-0 me-0 pt-3 pb-2 back" style="top: 64px; position: sticky; z-index: 2;
-          transition: top 150ms ease; background: white; border-bottom: 1px solid">
-          <div class="col-6 text-start">
+        <div class="row d-flex m-2 ms-0 me-0 pt-3 pb-2 back">
+          <!-- <div class="col-6 text-start">
             <h5 class="card-title letraResponsivaDescripcion">
-              {{anuncioDetalle.user_id?.firstName?.charAt(0)?.toUpperCase()}}{{anuncioDetalle.user_id?.firstName?.slice(1)}}
-              {{anuncioDetalle.user_id?.lastName?.charAt(0)?.toUpperCase()}}</h5>
-          </div>
+              {{anuncioDetalle.user?.firstName?.charAt(0)?.toUpperCase()}}{{anuncioDetalle.user?.firstName?.slice(1)}}
+              {{anuncioDetalle.user?.lastName?.charAt(0)?.toUpperCase()}}</h5>
+          </div> -->
           <div class="col-6"
-            *ngIf="anuncioDetalle.finished == false && anuncioDetalle.user_id?.email != usuarioRegistrado.email">
+            *ngIf="anuncioDetalle.finished == false && anuncioDetalle.user?.email != usuarioRegistrado.email">
             <!-- <a (click)="solicitarCurritoComprobacion(anuncioDetalle)" class="btn btn-primary col-12">Solicitar Currito</a> -->
           </div>
           <div class="col-6"
-            *ngIf="anuncioDetalle.finished == true && anuncioDetalle.user_id?.email != usuarioRegistrado.email">
+            *ngIf="anuncioDetalle.finished == true && anuncioDetalle.user?.email != usuarioRegistrado.email">
             <!-- <button disabled  class="btn btn-primary col-12">Ya ha sido realizado</button> -->
           </div>
-          <div class="col-6" *ngIf="anuncioDetalle.user_id?.email == usuarioRegistrado.email">
+          <div class="col-6" *ngIf="anuncioDetalle.user?.email == usuarioRegistrado.email">
             <!-- <a [routerLink]="['/profile/misCurritos']" class="btn btn-primary col-12">Editar anuncio</a> -->
           </div>
         </div>
 
         <!-- Inicio Carrusel -->
 
-        <div id="carouselExampleIndicators" class="carousel slide card-img-top" data-ride="carousel">
-          <ol class="carousel-indicators">
+        <div id="carouselExampleIndicators" class="slide card-img-top px-5" data-ride="carousel">
+          <img class="d-block w-100" src={{getImage(anuncioDetalle.file!)}} style="max-height: 450px;"
+                alt="Imagen no disponible">
+          <!-- <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
@@ -74,22 +71,22 @@
           <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-          </a>
+          </a> -->
         </div>
 
         <!-- Fin Carrusel -->
 
         <div class="card-body p-5 text-center row ">
           <div class="col-9 text-start">
-            <h5 class="card-title letraResponsiva">{{anuncioDetalle.title}}</h5>
+            <h5 class="card-title letraResponsiva fs-2 gray5">{{anuncioDetalle.title}}</h5>
 
           </div>
           <div class="col-3">
-            <p class="letraResponsiva"><strong>{{anuncioDetalle.price}} €</strong></p>
+            <p class="letraResponsiva fs-2 gray5"><strong>{{anuncioDetalle.price}} €</strong></p>
 
           </div>
           <div>
-            <p class="text-justify letraResponsivaDescripcion " style="text-align: justify;">
+            <p class="text-justify letraResponsivaDescripcion gray6" style="text-align: justify;">
               {{anuncioDetalle.description}}</p>
 
           </div>
@@ -98,7 +95,7 @@
               {{anuncioDetalle.jobDate?.toString()?.slice(0,10)}}</p>
           </div>
           <div class="col-12 me-0">
-            <p class="w-100 text-end letraResponsivaUbicacion me-0"><i
+            <p class="w-100 text-start letraResponsivaUbicacion me-0 green"><i
                 class="bi bi-geo-alt-fill"></i>{{anuncioDetalle.location}}</p>
 
           </div>

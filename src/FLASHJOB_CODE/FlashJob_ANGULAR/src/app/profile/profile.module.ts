@@ -1,3 +1,4 @@
+import { UsersListComponent } from './usersList/usersList.component';
 
 import { Mis_jobsComponent } from './mis_jobs/mis_jobs.component';
 import { Mi_perfilComponent } from './mi_perfil/mi_perfil.component';
@@ -16,7 +17,8 @@ import {TableModule} from 'primeng/table';
     ProfileComponent,
     Add_JobComponent,
     Mi_perfilComponent,
-    Mis_jobsComponent
+    Mis_jobsComponent,
+    UsersListComponent
   ],
   imports: [
     CommonModule,

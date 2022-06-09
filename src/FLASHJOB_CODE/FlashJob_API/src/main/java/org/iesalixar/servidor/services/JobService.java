@@ -16,4 +16,9 @@ public interface JobService {
 	
 	public List<Job> showFilteredJobs(String termino, String categoria, int[] rangoPrecio, String orden);
 	
+	public void removeJob(Long idAnuncio, String email);
+	
+	public Job addJobNoImg(String email, String title, String description, String price,
+			String categoryJ, String location, String file);
+	 
 }

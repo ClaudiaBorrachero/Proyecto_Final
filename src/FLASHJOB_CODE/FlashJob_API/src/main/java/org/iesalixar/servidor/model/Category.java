@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="categories")
 public class Category implements Serializable{
@@ -27,6 +29,7 @@ public class Category implements Serializable{
 	
 	private String icono;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy="categoryJ", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Job> jobs = new ArrayList<Job>();
 	
