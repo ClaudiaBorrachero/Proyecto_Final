@@ -26,13 +26,13 @@
       <td [routerLink]="['/anuncio-detalle', anuncio.id]" class='textoConPuntos '><span class="p-column-title"
           pSortableColumn="titulo"><strong>Título</strong></span>{{anuncio.title}}</td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
-          pSortableColumn="categoria"><strong>Categoría</strong></span>{{anuncio.categoryJ}}</td>
+          pSortableColumn="categoria"><strong>Categoría</strong></span>{{anuncio.categoryJ.name}}</td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
           pSortableColumn="precio"><strong>Precio</strong></span>{{anuncio.price}} €</td>
       <!-- <td [routerLink]="['/anuncio-detalle', anuncio.id]" style="overflow: hidden;"><span class="p-column-title"
           pSortableColumn="fechaAnuncio"><strong>Fecha publicación</strong></span>{{anuncio.fechaAnuncio?.slice(0,10)}}
       </td> -->
-      <td><i (click)="borrarAnuncio(anuncio.id)" class="pi pi-trash" style="font-size: 1rem"></i></td>
+      <td><i (click)="borrarAnuncio(anuncio.id)" class="pi pi-trash pink" style="font-size: 1rem"></i></td>
     </tr>
   </ng-template>
 </p-table>
@@ -55,6 +55,8 @@
       </th>
       <th pSortableColumn="price">Precio <p-sortIcon field="price"></p-sortIcon>
       </th>
+      <th></th>
+      <th></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-anuncio let-columns="anuncio">
@@ -66,9 +68,12 @@
       <td [routerLink]="['/anuncio-detalle', anuncio.id]" class='textoConPuntos '><span class="p-column-title"
           pSortableColumn="titulo"><strong>Título</strong></span>{{anuncio.title}}</td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
-          pSortableColumn="categoria"><strong>Categoría</strong></span>{{anuncio.categoryJ}}</td>
+          pSortableColumn="categoria"><strong>Categoría</strong></span>{{anuncio.categoryJ.name}}</td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
           pSortableColumn="precio"><strong>Precio</strong></span>{{anuncio.price}} €</td>
+      <td><i  (click)="seleccionarEventoEditar(anuncio)" class="pi pi-pencil green" style="font-size: 1rem"></i></td>
+      <!-- (click)="editAnuncio(anuncio.id)" -->
+      <td><i (click)="borrarAnuncio(anuncio.id)" class="pi pi-trash pink" style="font-size: 1rem"></i></td>
     </tr>
   </ng-template>
 </p-table>
@@ -76,3 +81,10 @@
 <div *ngIf="this.listaMisAnuncios.length == 0 && findRolUser() === 'user'" class="w-100 text-center gray6 mt-5">
   <p>Aún no has publicado ningún job</p>
 </div>
+
+<!-- Mostramos un dialogo con el formulario de añadir anuncio ya relleno para modificar los datos -->
+<p-dialog [(visible)]="dialogoVisible">
+
+  <app-add_job [edit]="true" [anuncioEditar]="anuncioSeleccionado" (recargarListado)="misAnuncios()"></app-add_job>
+
+</p-dialog>

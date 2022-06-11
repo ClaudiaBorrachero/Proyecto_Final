@@ -37,7 +37,7 @@ public class Job implements Serializable {
 	private double price;
 	
 	@ManyToOne
-	@JsonIgnore
+//	@JsonIgnore
 	private Category categoryJ;
 	
 	@Column(name="location")

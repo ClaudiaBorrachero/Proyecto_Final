@@ -3,6 +3,7 @@ package org.iesalixar.servidor.services;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.iesalixar.servidor.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 
 @Service
 public class JobServiceImpl implements JobService{
@@ -48,7 +50,7 @@ public class JobServiceImpl implements JobService{
 	@Override
 	public Job addJob(String email, String title, String description, String price,
 			String categoryJ, String location, MultipartFile file) {
-		System.out.println(price);
+		
 		Double convertPrecio = Double.parseDouble(price);
 		if(title.isBlank() || title == null || convertPrecio < 0) {
 			throw new CreateJobError();
@@ -57,7 +59,7 @@ public class JobServiceImpl implements JobService{
 			System.out.println(categoryJ);
 			Category categoriaNueva = categoryRepo.findById(categoryJ).orElse(null);
 			Job nuevoAnuncio = new Job(title, description, convertPrecio, categoriaNueva);
-			nuevoAnuncio.setJobDate(null);
+			nuevoAnuncio.setJobDate(LocalDateTime.now());
 			nuevoAnuncio.setLocation(location);
 			
 		
@@ -81,6 +83,45 @@ public class JobServiceImpl implements JobService{
 			return nuevoAnuncio;
 		}
 	}
+	
+	@Override
+	public Job addJobNoImg(String email, String title, String description, String price, String categoryJ,
+			String location, String file) {
+		System.out.println(price);
+		Double convertPrecio = Double.parseDouble(price);
+		if(title.isBlank() || title == null || convertPrecio < 0) {
+			throw new CreateJobError();
+		}
+		else {
+			System.out.println(categoryJ);
+			Category categoriaNueva = categoryRepo.findById(categoryJ).orElse(null);
+			Job nuevoAnuncio = new Job(title, description, convertPrecio, categoriaNueva);
+			nuevoAnuncio.setJobDate(LocalDateTime.now());
+			nuevoAnuncio.setLocation(location);
+			
+			
+			try {
+				byte[] defaultImage = Files.readAllBytes(Paths.get("src/main/resources/static/img/imagenload.png"));
+				nuevoAnuncio.setFile(defaultImage);
+			} catch (IOException e) {
+				System.out.println("salta error");
+				throw new CreateJobError();
+			}
+			
+			User usuario = userRepo.findByEmail(email).orElse(null);
+			categoriaNueva.getJobs().add(nuevoAnuncio);
+			usuario.getJob().add(nuevoAnuncio);
+			nuevoAnuncio.setUser(usuario);
+			System.out.println("boeobeo"+nuevoAnuncio);
+			
+			jobRepo.save(nuevoAnuncio);
+			categoryRepo.save(categoriaNueva);
+			userRepo.save(usuario);
+			System.out.println("boeobeo"+nuevoAnuncio);
+			return nuevoAnuncio;
+		}
+	}
+
 
 	/**
 	 * Metodo para mostrar los 6 anuncios mas recientes
@@ -205,59 +246,100 @@ public class JobServiceImpl implements JobService{
 	@Override
 	public void removeJob(Long idAnuncio, String email) {
 		Job anuncioBorrar = jobRepo.getById(idAnuncio);
-		if(userRepo.findByEmail(email).orElse(null).getJob().contains(anuncioBorrar)) {
+		if (email.equals("admin@gmail.com")) {
+			User userDelete = userRepo.findByEmail(anuncioBorrar.getUser().getEmail()).orElse(null);
+			userDelete.getJob().remove(anuncioBorrar);
+			System.out.println("1");
+			jobRepo.deleteById(idAnuncio);
+			System.out.println("2");
+			userRepo.save(userDelete);
+		}
+		else if(userRepo.findByEmail(email).orElse(null).getJob().contains(anuncioBorrar)) {
 			categoryRepo.getById(anuncioBorrar.getCategoryJ().getName()).getJobs().remove(anuncioBorrar);
 			User userDelete = userRepo.findByEmail(email).orElse(null);
+			System.out.println("0");
 			userDelete.getJob().remove(anuncioBorrar);
-//			System.out.println("1");
+			System.out.println("1");
 			jobRepo.deleteById(idAnuncio);
-//			System.out.println("2");
+			System.out.println("2");
 			userRepo.save(userDelete);
-//			System.out.println("3");
+			System.out.println("3");
 		}
 		else {
+			System.out.println("0");
 			throw new JobNotFound(idAnuncio);
 		}
 	}
 
+	
+
+	/**
+	 * Metodo para editar un anuncio, le pasamos un id y un anuncio nuevo para editar los cambios
+	 * @param id
+	 * @param anuncio
+	 * @return el nuevo anuncio ya editado
+	 */
 	@Override
-	public Job addJobNoImg(String email, String title, String description, String price, String categoryJ,
-			String location, String file) {
-		System.out.println(price);
+	public Job editAnuncio(Long idAnuncio, MultipartFile file, String title, String category, String price, String description, String location) {
+		
 		Double convertPrecio = Double.parseDouble(price);
-		if(title.isBlank() || title == null || convertPrecio < 0) {
+
+//		nuevoAnuncio.setFechaAnuncio(LocalDate.now());
+		if(title.isBlank() || title == null || convertPrecio < 0 ) {
 			throw new CreateJobError();
 		}
 		else {
-			System.out.println(categoryJ);
-			Category categoriaNueva = categoryRepo.findById(categoryJ).orElse(null);
-			Job nuevoAnuncio = new Job(title, description, convertPrecio, categoriaNueva);
-			nuevoAnuncio.setJobDate(null);
-			nuevoAnuncio.setLocation(location);
-			
-		
+		Job anuncioEditar = jobRepo.getById(idAnuncio);
+		anuncioEditar.setTitle(title);
+		anuncioEditar.setCategoryJ(categoryRepo.findById(category).orElse(null));
+		anuncioEditar.setPrice(convertPrecio);
+		anuncioEditar.setDescription(description);
 		try {
-			byte[] defaultImage = Files.readAllBytes(Paths.get("src/main/resources/static/img/imagenload.png"));
-			nuevoAnuncio.setFile(defaultImage);
+			anuncioEditar.setFile(file.getBytes());
 		} catch (IOException e) {
-			System.out.println("salta error");
 			throw new CreateJobError();
 		}
 		
-			User usuario = userRepo.findByEmail(email).orElse(null);
-			categoriaNueva.getJobs().add(nuevoAnuncio);
-			usuario.getJob().add(nuevoAnuncio);
-			nuevoAnuncio.setUser(usuario);
-			System.out.println("boeobeo"+nuevoAnuncio);
-
-			jobRepo.save(nuevoAnuncio);
-			categoryRepo.save(categoriaNueva);
-			userRepo.save(usuario);
-			System.out.println("boeobeo"+nuevoAnuncio);
-			return nuevoAnuncio;
+		
+		jobRepo.save(anuncioEditar);
+		return anuncioEditar;
+		}
+	
+	}
+	
+	/**
+	 * Metodo para editar un anuncio, le pasamos un id y un anuncio nuevo para editar los cambios
+	 * @param id
+	 * @param anuncio
+	 * @return el nuevo anuncio ya editado
+	 */
+	@Override
+	public Job editAnuncioSinFoto(Long idAnuncio, String title, String category, String price, String description, String location) {
+		
+		Double convertPrecio = Double.parseDouble(price);
+//		nuevoAnuncio.setFechaAnuncio(LocalDate.now());
+		if(title.isBlank() || title == null || convertPrecio < 0 ) {
+			throw new CreateJobError();
+		}
+		else {
+		Job anuncioEditar = jobRepo.getById(idAnuncio);
+		anuncioEditar.setTitle(title);
+		anuncioEditar.setCategoryJ(categoryRepo.findById(category).orElse(null));
+		anuncioEditar.setPrice(convertPrecio);
+		anuncioEditar.setDescription(description);
+		
+		
+		jobRepo.save(anuncioEditar);
+		return anuncioEditar;
 		}
 	}
+	
+	
+
+	
+
 
 	
 	
 }
+

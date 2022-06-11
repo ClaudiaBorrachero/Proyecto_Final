@@ -31,25 +31,51 @@ export class AnuncioService {
    * @param user
    * @returns Un observable con el resultado de la petición
    */
-   addAnuncio(anuncio:Anuncio, file:any){
+   addAnuncio(anuncio:any, file:any){
     let url = `${this.baseUrl}/anuncio`;
 
     if (file==="NotSelected") {
       url = `${this.baseUrl}/anuncio/defaultImage`;
     }
-
+console.log("la categoria es"+anuncio.category)
     const headers = this.cargarHeaders();
     console.log(anuncio.price!.toString())
     const formData: FormData = new FormData();
       formData.append('file', file);
       formData.append('title', anuncio.title!);
-      formData.append('category', anuncio.category!);
+      formData.append('category', anuncio.category);
       formData.append('price', anuncio.price!.toString());
       // formData.append('tipoPrecio', anuncio.tipoPrecio!);
       formData.append('description', anuncio.description!);
       formData.append('location', anuncio.location!);
 
       return this.http.post<Anuncio>(url, formData, {headers});
+  }
+
+  /**
+   * Método para registrar usuarios, recibe un usuario y lanza la peticion a la API
+   * @param user
+   * @returns Un observable con el resultado de la petición
+   */
+   editAnuncio(anuncio:any, file:any){
+    let url = `${this.baseUrl}/anuncio/${anuncio.id}`;
+
+    if (file==="NotSelected") {
+      console.log("Estoy harto"+anuncio.categoryJ?.name!)
+      url = `${this.baseUrl}/anuncioDefaultImage/${anuncio.id}`;
+    }
+
+    const headers = this.cargarHeaders();
+
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('title', anuncio.title!);
+    formData.append('category', anuncio.category);
+    formData.append('price', anuncio.price!.toString());
+    formData.append('description', anuncio.description!);
+    formData.append('location', anuncio.location!);
+
+      return this.http.put(url, formData, {headers});
   }
 
   /**

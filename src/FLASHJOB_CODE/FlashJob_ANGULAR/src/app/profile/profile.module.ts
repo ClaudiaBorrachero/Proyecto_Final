@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {TableModule} from 'primeng/table';
+import {DialogModule} from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {TableModule} from 'primeng/table';
     FormsModule,
     ProfileRoutingModule,
     ReactiveFormsModule,
-    TableModule
+    TableModule,
+    DialogModule
   ]
 })
 export class ProfileModule { }

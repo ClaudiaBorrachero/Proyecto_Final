@@ -1,8 +1,9 @@
 package org.iesalixar.servidor.controller;
 
+import java.util.Collections;
 import java.util.List;
 
-
+import org.iesalixar.servidor.error.InvalidLogin;
 import org.iesalixar.servidor.error.JobNotFound;
 import org.iesalixar.servidor.error.NotFound;
 import org.iesalixar.servidor.error.TokenInvalidException;
@@ -18,16 +19,23 @@ import org.iesalixar.servidor.services.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+
+
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -114,6 +122,60 @@ public class MainController {
 			return new ResponseEntity<Job>(
 					jobService.addJobNoImg(email, title, description, price, category, location, file), HttpStatus.CREATED);
 			
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
+	/**
+	 * Método para actualizar anuncios, recibe un id de anuncio y un anuncio, en
+	 * caso que el anuncio exista cambia los valores del antiguo anuncio por los del
+	 * nuevo
+	 * 
+	 * @param anuncio
+	 * @param idAnuncio
+	 * @return Anuncio modificado en caso de que todo haya ido bien, error en caso
+	 *         de que no exista el anuncio o no este correctamente logueado
+	 */
+	@PutMapping("/anuncio/{id}")
+	public ResponseEntity<Job> editJob(@RequestParam MultipartFile file, @RequestParam String title,
+			@RequestParam String category, @RequestParam String price, @RequestParam String description,
+			@RequestParam String location, @PathVariable(value = "id") Long idAnuncio) {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuarioService.findByEmail(email) != null ) {
+			if (jobRepo.existsById(idAnuncio)) {
+
+				return new ResponseEntity<Job>(jobService.editAnuncio(idAnuncio, file, title, category, price, description, location), HttpStatus.CREATED);
+			} else {
+				throw new JobNotFound(idAnuncio);
+			}
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
+	/**
+	 * Método para actualizar anuncios, recibe un id de anuncio y un anuncio, en
+	 * caso que el anuncio exista cambia los valores del antiguo anuncio por los del
+	 * nuevo
+	 * 
+	 * @param anuncio
+	 * @param idAnuncio
+	 * @return Anuncio modificado en caso de que todo haya ido bien, error en caso
+	 *         de que no exista el anuncio o no este correctamente logueado
+	 */
+	@PutMapping("/anuncioDefaultImage/{id}")
+	public ResponseEntity<Job> editJobSinFoto(@RequestParam String file, @RequestParam String title,
+			@RequestParam String category, @RequestParam String price, @RequestParam String description,
+			@RequestParam String location, @PathVariable(value = "id") Long idAnuncio) {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuarioService.findByEmail(email) != null ) {
+			if (jobRepo.existsById(idAnuncio)) {
+
+				return new ResponseEntity<Job>(jobService.editAnuncioSinFoto(idAnuncio, title, category, price, description, location), HttpStatus.CREATED);
+			} else {
+				throw new JobNotFound(idAnuncio);
+			}
 		} else {
 			throw new TokenInvalidException();
 		}
@@ -211,6 +273,7 @@ public class MainController {
 				jobService.removeJob(idAnuncio, email);
 				return ResponseEntity.noContent().build();
 			} else {
+				System.out.println("avemaria");
 				throw new JobNotFound(idAnuncio);
 			}
 
@@ -275,5 +338,49 @@ public class MainController {
 			throw new TokenInvalidException();
 		}
 	}
+	
+	/**
+	 * Este metodo recibe unos parámetros para actualizar el perfil cuando se le envia una nueva foto de perfil
+	 * 
+	 * @return usuarioEditado
+	 */
+	@PutMapping("/profile/update/{id}")
+	public ResponseEntity<User> editProfile(@RequestParam MultipartFile imagenProfile, @RequestParam String firstName,
+			@RequestParam String lastName, @RequestParam String phoneNumber, @RequestParam String location,
+			@PathVariable(value = "id") String idUsuario) {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (email != null && userRepo.findByEmail(email).orElse(null) != null) {
+
+				return new ResponseEntity<User>(usuarioService.editProfile(imagenProfile, firstName, lastName, phoneNumber,
+						location, idUsuario), HttpStatus.CREATED);
+			
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
+	
+	
+	/**
+	 * Este metodo recibe unos parámetros para actualizar el perfil cuando no se le envia una nueva foto de perfil
+	 * 
+	 * @return usuarioEditado
+	 */
+	@PutMapping("/profile/updateDefaultImage/{id}")
+	public ResponseEntity<User> editProfile(@RequestParam String imagenProfile,@RequestParam String firstName,
+			@RequestParam String lastName, @RequestParam String phoneNumber, @RequestParam String location,
+			@PathVariable(value = "id") String idUsuario) {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (email != null && userRepo.findByEmail(email).orElse(null) != null) {
+
+				return new ResponseEntity<User>(usuarioService.editProfileNoImg( firstName, lastName, phoneNumber,
+						location, idUsuario), HttpStatus.CREATED);
+			
+		} else {
+			throw new TokenInvalidException();
+		}
+	}
+	
+	
 	
 }

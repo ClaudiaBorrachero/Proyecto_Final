@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CategoriaService } from './../../services/categoria.service';
 import { AnuncioService } from 'src/app/services/anuncio.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 // import { MessageService } from 'primeng/api';
 
 @Component({
@@ -24,11 +24,24 @@ export class Add_JobComponent implements OnInit {
     // private messageService: MessageService,
     ) { }
 
+
+//Variables editar anuncio
+  //Comprobamos si es un anuncio para editar o no
+  @Input() edit=false;
+
+  //Con esto conseguimos el anuncio que queremos editar, el cual lleva consigo el id del anuncio
+  @Input() anuncioEditar:Anuncio= {};
+  titulo:string='';
+  botonRegistro:string = '';
+  /**
+   * Lo emitimos para que se recargue el componente de mostrar los anuncios solicitados, una vez que hemos actualizado el anuncio
+   */
+   @Output()
+   recargarListado = new EventEmitter();
+
   /**
   * Definimos variables
   */
-  titulo:string='';
-  botonRegistro:string = '';
   listaCategorias:Categoria[]=[];
   categoriaDefecto:string="Todas las categorias"
   // tipoPrecioDefecto:string="Por horas";
@@ -63,10 +76,27 @@ export class Add_JobComponent implements OnInit {
     this.titulo = "Añade un nuevo Job";
     this.botonRegistro ="Subir anuncio";
 
-
-
     this.mostrarCategorias();
   }
+
+   /**
+     * Si accedemos a este componente a través de editar anuncio, rellenaremos los campos con el anuncio que nos hemos traido
+     */
+    ngOnChanges(): void{
+      this.miFormulario.reset({
+        title: this.anuncioEditar.title,
+        category: this.anuncioEditar.categoryJ?.name,
+        price: this.anuncioEditar.price,
+        description: this.anuncioEditar.description,
+        location: this.anuncioEditar.location,
+        id: this.anuncioEditar.id
+
+      })
+      console.log(this.miFormulario.get("category")?.value);
+      this.categoriaDefecto=this.miFormulario.get("category")?.value,
+      this.titulo= "Editar Currito";
+      this.botonRegistro = "Actualizar anuncio"
+    }
 
   /**
    * Este método sirve para obtener los archivos seleccionados
@@ -101,7 +131,7 @@ export class Add_JobComponent implements OnInit {
         "location": this.miFormulario.get("location")?.value
     }
 
-    console.log(this.miFormulario.get("category")?.value)
+    console.log("joderrrrr"+this.miFormulario.get("category")?.value)
 
     this.anuncioService.addAnuncio(anuncio, this.currentFile).subscribe({
 
@@ -134,6 +164,59 @@ export class Add_JobComponent implements OnInit {
   // }
     }
 
+    /**
+     * Metodo para editar un anuncio, recibimos un anuncio modificado y hacemos la llamada mandando el anuncio que queremos modificar y el
+     * nuevo anuncio con los cambios modificados
+     */
+    editarAnuncio(){
+      if (this.selectedFiles) {
+
+        const file: File | null = this.selectedFiles.item(0);
+        if (file) {
+          this.currentFile = file;
+        }
+      }
+    let respuesta: LoginRespuesta = {};
+    let solucion: string;
+    const anuncio = {
+      "title": this.miFormulario.get("title")?.value,
+      "category": this.miFormulario.get("category")?.value,
+      "price": this.miFormulario.get("price")?.value,
+      "description": this.miFormulario.get("description")?.value,
+      "location": this.miFormulario.get("location")?.value,
+      "id":this.miFormulario.get("id")?.value
+
+
+
+
+    }
+    this.anuncioService.editAnuncio(anuncio, this.currentFile).subscribe({
+
+      next:resp => {
+        respuesta = resp;
+
+        //emitimos el evento para que se recargue el componente
+        this.recargarListado.emit("");
+        // window.location.reload();
+
+      },
+      error: (err: any) => {
+        solucion = "error";
+        //  localStorage.removeItem('jwt');
+        Swal.fire({
+          title: 'Error al editar anuncio',
+          text: 'Vuelve a intentarlo',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+        this.currentFile = undefined;
+      }
+    })
+
+  this.selectedFiles = undefined;
+
+}
+
   /**
    * Metodo para mostrar la lista de categorias, la cual la recibe del servicio categoriaService
    */
@@ -151,7 +234,8 @@ export class Add_JobComponent implements OnInit {
    submitFormulario() {
 
     if(this.botonRegistro == 'Actualizar anuncio'){
-      // this.editarAnuncio();
+      console.log("claudia guapa")
+      this.editarAnuncio();
     }
     else{
       this.addJob()

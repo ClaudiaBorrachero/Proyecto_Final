@@ -23,13 +23,13 @@ export class ValidatorRegistroService implements AsyncValidator{
   constructor(private http: HttpClient) { }
 
 
-  
+
 
   /**
    * Este método validará que ambas contraseñas introducidas son iguales
    * @param campo1 contraseña 1
    * @param campo2 contraseña 2
-   * @returns 
+   * @returns
    */
   camposIguales( campo1: string, campo2: string ) {
 
@@ -41,7 +41,7 @@ export class ValidatorRegistroService implements AsyncValidator{
       if ( pass1 !== pass2 ) {
         formGroup.get(campo2)?.setErrors({ noIguales: true });
         return { noIguales: true }
-      } 
+      }
 
 
 
@@ -52,12 +52,12 @@ export class ValidatorRegistroService implements AsyncValidator{
 
   }
 
-  
+
 
 /**
  * La clase implementa a AsyncValidator por lo que tenemos que sobreescribir el metodo validate,
- * este método lanzará una petición a la API pasandole un email por parámetro, en caso de que el 
- * email crearemos un nuevo error 
+ * este método lanzará una petición a la API pasandole un email por parámetro, en caso de que el
+ * email crearemos un nuevo error
  * @param control Recibe el email que introducimos en el formulario
  * @returns una promesa la cual asigna un error a email en caso de que este ya se este utilizando
  */
@@ -77,21 +77,21 @@ export class ValidatorRegistroService implements AsyncValidator{
                           return { emailTomado: true }
                               }
                               else{
-                      
+
                                 control.get("email")?.setErrors(null);
- 
- 
+
+
                           return null;
                                }
                   }),
                   catchError(error=> {
                          return EMPTY;
                 })
-                  
+
                 );
 
   }
 
 
-    
+
 }

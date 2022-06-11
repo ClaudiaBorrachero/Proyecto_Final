@@ -1,3 +1,5 @@
+import { UserService } from 'src/app/services/user.service';
+import { Byte } from '@angular/compiler/src/util';
 import { LoginService } from './../../services/login.service';
 import { AnuncioService } from 'src/app/services/anuncio.service';
 import { environment } from './../../../environments/environment.prod';
@@ -17,18 +19,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./mi_perfil.component.css'],
 })
 export class Mi_perfilComponent implements OnInit {
-  miFormulario: FormGroup = this.fb.group(
+
+  miFormularioDatosPerfil: FormGroup = this.fb.group(
     {
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(this.ValidatorRegistroService.emailPattern),
-        ],
-        [this.ValidatorRegistroService],
-      ],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      password2: ['', [Validators.required]],
       lastName: [
         '',
         [
@@ -44,7 +37,6 @@ export class Mi_perfilComponent implements OnInit {
           Validators.pattern(this.ValidatorRegistroService.nombrePattern),
         ],
       ],
-      // nacimiento: ['', [ Validators.required]  ],
       phoneNumber: [
         '',
         [
@@ -52,30 +44,34 @@ export class Mi_perfilComponent implements OnInit {
           Validators.pattern(this.ValidatorRegistroService.telefonoPattern),
         ],
       ],
+    }
+  );
+  miFormularioDatosPass: FormGroup = this.fb.group(
+    {
+      passwordOld: [
+        '',
+        [],
+      ],
+      location: ['', [Validators.required]],
+      passwordNew: [
+        '',
+        [ Validators.required, Validators.minLength(6)],
+      ],
+      passwordNew2: [
+        '',
+        [ Validators.required, Validators.minLength(6)],
+      ],
     },
     {
-      validators: [
-        this.ValidatorRegistroService.camposIguales('password', 'password2'),
-        // , this.validatorService.validarEmail('email')
-      ],
+      validators: [this.ValidatorRegistroService.camposIguales('passwordNew', 'passwordNew2')
+      // , this.validatorService.validarEmail('email')
+    ],
     }
   );
 
+
   solucion: string = '';
   // private baseUrl: string = environment.baseUrl;
-
-  get emailErrorMsg(): string {
-    const errors = this.miFormulario.get('email')?.errors!;
-    if (errors['required']) {
-      return 'Email es obligatorio';
-    } else if (errors['pattern']) {
-      return 'El valor ingresado no tiene formato de correo';
-    } else if (errors['emailTomado']) {
-      return 'El email ya está en uso';
-    }
-
-    return '';
-  }
 
   constructor(
     private anuncioService: AnuncioService,
@@ -84,7 +80,8 @@ export class Mi_perfilComponent implements OnInit {
     private ValidatorRegistroService: ValidatorRegistroService,
     private registerService: RegisterService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private usuarioService: UserService
   ) {}
 
   usuarioRegistrado: Usuario = {
@@ -96,19 +93,33 @@ export class Mi_perfilComponent implements OnInit {
     // fechaNacimiento: '',
     location: '',
   };
+  selectedFiles?: FileList;
+  currentFile?: any = "NotSelected";
+  previsualizarImagen: any='';
 
   ngOnInit(): void {
     this.conseguirUsuarioRegistrado();
     window.scrollTo(0, 0);
-    this.miFormulario.reset({
-      email: '',
-      password: '',
-      password2: '',
-      lastName: '',
-      location: '',
-      // nacimiento: ''
-    });
+
+    this.miFormularioDatosPerfil.markAllAsTouched();
   }
+
+/**
+   * Este método sirve para obtener los archivos seleccionados
+   * @param event
+   */
+ selectFile(event: any): void {
+  this.selectedFiles = event.target.files;
+  if (this.selectedFiles){
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      this.previsualizarImagen=event.target?.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  } else {
+    this.previsualizarImagen='';
+  }
+}
 
   jwt:JwtHelperService = new JwtHelperService();
 
@@ -131,20 +142,58 @@ export class Mi_perfilComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
+  /**
+   * Método que llama a getImage del servicio y transforma un array de bytes en una url correspondiente a una imagen
+   * @param file
+   * @returns
+   */
+   getImage(file: Byte[]) {
+    return this.usuarioService.getImage(file);
+  }
+
+  /**
+   * Metodo para conseguir el usuario que está logueado
+   */
+
   conseguirUsuarioRegistrado() {
     this.loginService.validarToken().subscribe({
       next: (resp) => {
         this.usuarioRegistrado = resp;
+        this.miFormularioDatosPerfil.reset({
+          firstName: this.usuarioRegistrado.firstName,
+          lastName: this.usuarioRegistrado.lastName,
+          phoneNumber: this.usuarioRegistrado.phoneNumber,
+          location: this.usuarioRegistrado.location
+        });
       },
       error: (error) => {},
     });
+
   }
 
+  /**
+   * Metodo para mostrar mensajes en los campos de editar perfil
+   * @param campo
+   * @returns
+   */
   campoNoValido(campo: string) {
     // this.findInvalidControlsRecursive(this.miFormulario);
     return (
-      this.miFormulario.get(campo)?.invalid &&
-      this.miFormulario.get(campo)?.touched
+      this.miFormularioDatosPerfil.get(campo)?.invalid &&
+      this.miFormularioDatosPerfil.get(campo)?.touched
+    );
+  }
+
+  /**
+   *Metodo para mostrar mensaje en los campos de password
+   * @param campo
+   * @returns
+   */
+  campoNoValidoPass(campo: string) {
+    // this.findInvalidControlsRecursive(this.miFormulario);
+    return (
+      this.miFormularioDatosPass.get(campo)?.invalid &&
+      this.miFormularioDatosPass.get(campo)?.touched
     );
   }
 
@@ -171,10 +220,40 @@ export class Mi_perfilComponent implements OnInit {
   // }
 
   submitFormulario() {
-    this.register();
+    this.updateProfile();
 
-    this.miFormulario.markAllAsTouched();
+    this.miFormularioDatosPerfil.markAllAsTouched();
   }
+
+  /**
+   * Metodo para subir el formulario de actualizar contraseña
+   */
+  submitFormularioPass() {
+    const passEdit: any = {
+      passwordOld: this.miFormularioDatosPass.get('passwordOld')?.value,
+      passwordNew: this.miFormularioDatosPass.get('passwordNew')?.value,
+      passwordNew2: this.miFormularioDatosPass.get('passwordNew2')?.value
+  }
+
+
+  this.usuarioService.updatePass(passEdit).subscribe({
+
+    next:resp => {
+
+      location.reload();
+  },
+  error: (err: any) => {
+    //  localStorage.removeItem('jwt');
+    Swal.fire({
+      title: 'Error al editar perfil',
+      text: 'Vuelve a intentarlo',
+      icon: 'error',
+      confirmButtonText: 'Ok'
+    })
+    this.currentFile = undefined;
+  }
+  });
+}
 
   comprobarRespuestaLogin() {
     if (this.solucion == 'true') {
@@ -188,37 +267,84 @@ export class Mi_perfilComponent implements OnInit {
    * a registerService para realizar una peticion post de añadir
    * el usuario
    */
-  register() {
-    let respuesta: LoginRespuesta = {};
-    let solucion: string;
-    const user = {
-      email: this.miFormulario.get('email')?.value,
-      password: this.miFormulario.get('password')?.value,
-      firstName: this.miFormulario.get('firstName')?.value,
-      lastName: this.miFormulario.get('lastName')?.value,
-      phoneNumber: this.miFormulario.get('phoneNumber')?.value,
-      location: this.miFormulario.get('location')?.value,
-      // "fechaNacimiento": this.miFormulario.get("nacimiento")?.value,
-    };
-    this.registerService.register(user).subscribe({
-      next: (resp) => {
-        respuesta = resp;
-        if (respuesta.jwt_token != null) {
-          localStorage.setItem('jwt', respuesta.jwt_token);
-          this.router.navigate(['home']);
-          solucion = 'true';
-        }
-      },
-      error(error) {
-        solucion = 'error';
-        localStorage.removeItem('jwt');
-        Swal.fire({
-          title: 'Error al inciar sesión',
-          text: 'Vuelve a intentarlo',
-          icon: 'error',
-          confirmButtonText: 'Ok',
-        });
-      },
-    });
+  // register() {
+  //   let respuesta: LoginRespuesta = {};
+  //   let solucion: string;
+  //   const user = {
+  //     firstName: this.miFormularioDatosPerfil.get('firstName')?.value,
+  //     lastName: this.miFormularioDatosPerfil.get('lastName')?.value,
+  //     phoneNumber: this.miFormularioDatosPerfil.get('phoneNumber')?.value,
+  //     location: this.miFormularioDatosPerfil.get('location')?.value,
+  //     // "fechaNacimiento": this.miFormulario.get("nacimiento")?.value,
+  //   };
+  //   this.registerService.register(user).subscribe({
+  //     next: (resp) => {
+  //       respuesta = resp;
+  //       if (respuesta.jwt_token != null) {
+  //         localStorage.setItem('jwt', respuesta.jwt_token);
+  //         this.router.navigate(['home']);
+  //         solucion = 'true';
+  //       }
+  //     },
+  //     error(error) {
+  //       solucion = 'error';
+  //       localStorage.removeItem('jwt');
+  //       Swal.fire({
+  //         title: 'Error al inciar sesión',
+  //         text: 'Vuelve a intentarlo',
+  //         icon: 'error',
+  //         confirmButtonText: 'Ok',
+  //       });
+  //     },
+  //   });
+  // }
+
+
+  updateProfile() {
+    if (this.selectedFiles) {
+
+      const file: File | null = this.selectedFiles.item(0);
+      if (file) {
+        this.currentFile = file;
+      }
+    }
+
+        let respuesta: any = {};
+        let solucion: string;
+    const userEditar: any = {
+      firstName: this.miFormularioDatosPerfil.get('firstName')?.value,
+      lastName: this.miFormularioDatosPerfil.get('lastName')?.value,
+      phoneNumber: this.miFormularioDatosPerfil.get('phoneNumber')?.value,
+      location: this.miFormularioDatosPerfil.get('location')?.value,
   }
+
+
+  this.usuarioService.updateProfile(userEditar, this.currentFile, this.usuarioRegistrado.email).subscribe({
+
+    next:resp => {
+      respuesta = resp;
+      // this.anuncioEditadoCorrectamente();
+      console.log(resp);
+      this.miFormularioDatosPerfil.reset()
+      location.reload();
+  },
+  error: (err: any) => {
+    solucion = "error";
+    //  localStorage.removeItem('jwt');
+    Swal.fire({
+      title: 'Error al editar perfil',
+      text: 'Vuelve a intentarlo',
+      icon: 'error',
+      confirmButtonText: 'Ok'
+    })
+    this.currentFile = undefined;
+  },
+})
+// }
+this.selectedFiles = undefined;
+// }
+  }
+
+
+
 }

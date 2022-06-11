@@ -17,13 +17,32 @@ export class Mis_jobsComponent implements OnInit {
 
   first = 0;
   rows = 10;
+  //Con este atributo ocultamos o desolcultamos el componente de editar el anuncio
   dialogoVisible:boolean = false;
   listaAnunciosAdmin:Anuncio[]=[];
   listaMisAnuncios:Anuncio[]=[];
+  anuncioSeleccionado:Anuncio={};
 
   ngOnInit() {
     this.mostrarAnunciosAdmin();
+    this.misAnuncios();
   }
+
+  /**
+   * Este método se lanza cuando se pulsa el boton de editar un anuncio
+   * @param anuncio
+   */
+   seleccionarEventoEditar(anuncio:Anuncio){
+    this.mostrarFormulario();
+    this.anuncioSeleccionado = anuncio;
+  }
+
+  /**
+   * Este evento es para mostrar la ventana emergente con el anuncio a editar
+   */
+   mostrarFormulario() {
+    this.dialogoVisible = !this.dialogoVisible;
+}
 
   /**
    * Método que llama a getImage del servicio y transforma un array de bytes en una url correspondiente a una imagen
@@ -79,6 +98,7 @@ export class Mis_jobsComponent implements OnInit {
    resp => {
       this.showSuccess()
       this.mostrarAnunciosAdmin()
+      this.misAnuncios()
      //  setTimeout(function() {window.location.reload()}, 1000)
 
      },error => {

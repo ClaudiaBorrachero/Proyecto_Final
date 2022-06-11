@@ -13,27 +13,27 @@
               <div class="col-md-4">
                 <label class="w-100 p-1 text-start gray5">Nombre</label>
                 <input type="text" class="form-control" formControlName="firstName" placeholder="Nombre">
-                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('firstName')">
+                <span class="form-text text-danger" *ngIf="campoNoValido('firstName')">
                   Solo letras
-                </span> -->
+                </span>
               </div>
 
               <!-- Apellidos -->
               <div class="col-md-8">
                 <label class="w-100 p-1 text-start gray5">Apellidos</label>
                 <input type="text" class="form-control" formControlName="lastName" placeholder="Apellidos">
-                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('lastName')">
+                <span class="form-text text-danger" *ngIf="campoNoValido('lastName')">
                   Debes introducir dos apellidos
-                </span> -->
+                </span>
               </div>
 
               <!-- Email -->
               <div class="col-md-8">
                 <label class="w-100 p-1 text-start gray5">Correo electrónico</label>
                 <input type="email" class="form-control" formControlName="email" placeholder="Email">
-                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('email')">
+                <span class="form-text text-danger" *ngIf="campoNoValido('email')">
                   {{ emailErrorMsg }}
-                </span> -->
+                </span>
 
               </div>
 
@@ -41,18 +41,18 @@
               <div class="col-md-4">
                 <label class="w-100 p-1 text-start gray5">Teléfono</label>
                 <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Teléfono">
-                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('phoneNumber')">
+                <span class="form-text text-danger" *ngIf="campoNoValido('phoneNumber')">
                   Deben ser 9 dígitos.
-                </span> -->
+                </span>
               </div>
 
               <!-- Password -->
               <div class="col-md-6">
                 <label class="w-100 p-1 text-start gray5">Contraseña</label>
                 <input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
-                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('password')">
+                <span class="form-text text-danger" *ngIf="campoNoValido('password')">
                   La contraseña debe de ser mayor de 6 caracteres.
-                </span> -->
+                </span>
               </div>
 
               <!-- Password2 -->
@@ -60,22 +60,22 @@
                 <label class="w-100 p-1 text-start gray5">Confirma la contraseña</label>
                 <input type="password" class="form-control" formControlName="password2"
                   placeholder="Confirma contraseña">
-                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('password2')">
+                <span class="form-text text-danger" *ngIf="campoNoValido('password2')">
                   No coindicen las contraseñas
-                </span> -->
+                </span>
               </div>
 
               <!-- Direcccion -->
               <div class="col-md-12 text-start">
                 <label for="inputEmail4" class="form-label ms-2 gray5">Dirección</label>
                 <input type="text" class="form-control" formControlName="location" placeholder="Dirección">
-                <!-- <span class="form-text text-danger" *ngIf="campoNoValido('location')">
+                <span class="form-text text-danger" *ngIf="campoNoValido('location')">
                   La dirección es requerida
-                </span> -->
+                </span>
               </div>
 
               <button class="btn lightGreenBack text-white btn-block" type="submit"
-                [disabled]="miFormulario.valid">Registrarme</button>
+                [disabled]="!miFormulario.valid">Registrarme</button>
 
             </form>
 

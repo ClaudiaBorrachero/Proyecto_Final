@@ -22,6 +22,7 @@ export interface Usuario {
   firstName?: string;
   lastName?: string;
   phoneNumber?: string;
+  file?: Byte[];
   // fechaNacimiento?: string;
   location?: string;
 }
@@ -31,7 +32,7 @@ export interface Anuncio {
   title?:       string;
   price?:       number;
   description?:  null | string;
-  category?:    string;
+  categoryJ?:    Categoria;
   finished?:   boolean;
   jobDate?: Date;
   // fechaFin?:     null | Date;

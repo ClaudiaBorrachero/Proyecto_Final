@@ -37,7 +37,24 @@ solucion: string = "";
 private baseUrl: string = environment.baseUrl;
 
 
-
+//  public findInvalidControlsRecursive(formToInvestigate:FormGroup|FormArray):string[] {
+//     var invalidControls:string[] = [];
+//     let recursiveFunc = (form:FormGroup|FormArray) => {
+//       Object.keys(form.controls).forEach(field => {
+//         const control = form.get(field);
+//         if (control?.invalid) invalidControls.push(field);
+//         if (control instanceof FormGroup) {
+//           recursiveFunc(control);
+//         } else if (control instanceof FormArray) {
+//           recursiveFunc(control);
+//         }
+//       });
+//     }
+//     recursiveFunc(formToInvestigate);
+//     console.log(invalidControls)
+//     console.log(this.miFormulario.valid + "gfgdfgdgdfgfdgfdgdfg")
+//     return invalidControls;
+//   }
 
 get emailErrorMsg(): string {
 
@@ -83,11 +100,19 @@ constructor( private fb: FormBuilder,
   }
 
     submitFormulario() {
-
-      this.register()
-
-
+      console.log("iuvbf")
+      // this.findInvalidControlsRecursive(this.miFormulario);
       this.miFormulario.markAllAsTouched();
+      if (this.miFormulario.valid){
+        this.register()
+      } else {
+        Swal.fire({
+          title: 'Error al realizar el registro',
+          text: 'Vuelve a intentarlo',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+      }
 
     }
 

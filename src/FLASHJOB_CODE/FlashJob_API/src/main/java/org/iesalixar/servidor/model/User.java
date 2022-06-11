@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,6 +30,9 @@ public class User implements Serializable {
 	
 //	@Column(name="user",unique=true, nullable=false)
 //	private String userName;
+	
+	@Lob
+	private byte[] file;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(nullable=false)
@@ -72,6 +76,7 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
+		
 //	public String getUserName() {
 //		return userName;
 //	}
@@ -79,6 +84,14 @@ public class User implements Serializable {
 //	public void setUserName(String userName) {
 //		this.userName = userName;
 //	}
+
+	public byte[] getFile() {
+		return file;
+	}
+
+	public void setFile(byte[] file) {
+		this.file = file;
+	}
 
 	public String getPassword() {
 		return password;

@@ -1,17 +1,22 @@
 package org.iesalixar.servidor.services;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
-
+import org.iesalixar.servidor.error.CreateJobError;
 import org.iesalixar.servidor.error.JobNotFound;
 import org.iesalixar.servidor.error.NotFound;
+import org.iesalixar.servidor.model.Category;
 import org.iesalixar.servidor.model.Job;
 import org.iesalixar.servidor.model.User;
 import org.iesalixar.servidor.repository.CategoryRepository;
 import org.iesalixar.servidor.repository.JobRepository;
 import org.iesalixar.servidor.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
@@ -20,6 +25,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 	UsuarioRepository userRepo;
 	@Autowired
 	JobRepository jobRepo;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@Override
 	public User insertUsuario(User usuario) {		
@@ -92,6 +99,59 @@ public class UsuarioServiceImpl implements UsuarioService{
 			throw new JobNotFound(idUsuario);
 		}
 	}
-
 	
+	@Override
+	public User editProfile(MultipartFile imagenProfile, String firstName, String lastName, String phoneNumber,
+			String location, String idUsuario) {
+		
+			User userEdit = userRepo.findByEmail(idUsuario).orElse(null);
+			userEdit.setFirstName(firstName);
+			userEdit.setLastName(lastName);
+			userEdit.setPhoneNumber(phoneNumber);
+			userEdit.setLocation(location);
+		
+		try {
+			userEdit.setFile(imagenProfile.getBytes());
+		} catch (IOException e) {
+			throw new CreateJobError();
+		}
+		
+			userRepo.save(userEdit);
+			return userEdit;
+	}
+	
+	@Override
+	public User editProfileNoImg(String firstName, String lastName, String phoneNumber,
+			String location, String idUsuario) {
+		
+			User userEdit = userRepo.findByEmail(idUsuario).orElse(null);
+			if(firstName != "") {
+				userEdit.setFirstName(firstName);
+			}
+			if(lastName != "") {
+				userEdit.setLastName(lastName);
+			}
+			if(phoneNumber != "") {
+				userEdit.setPhoneNumber(phoneNumber);
+			}
+			if(location != "") {
+				userEdit.setLocation(location);
+			}
+		
+		
+			userRepo.save(userEdit);
+			return userEdit;
+	}
+
+	@Override
+	public User editPass(String passwordNew, String passwordNew2, String email) {
+		User userEdit = userRepo.findByEmail(email).orElse(null);
+		String encodedPass = passwordEncoder.encode(passwordNew);
+		
+		userEdit.setPassword(encodedPass);
+		userRepo.save(userEdit);
+		return userEdit;
+	}
+
+		
 }
