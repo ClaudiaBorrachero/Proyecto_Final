@@ -19,10 +19,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-anuncio let-columns="anuncio">
     <tr>
-      <td *ngIf="getImage(anuncio.file)== null"><img src="../../../assets/img/default.png" alt="Imagen" width="70"
-          style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
+      <td *ngIf="getImage(anuncio.file)== null"><img src="../../../assets/img/default.png" alt="Imagen"
+          style="width: 70px; height: 70px;" /></td>
       <td *ngIf="getImage(anuncio.file)!= null"><img class="img-fluid" src={{getImage(anuncio.file)}} alt="Imagen"
-          width="70" style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
+          style="width: 70px; height: 70px;" /></td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]" class='textoConPuntos '><span class="p-column-title"
           pSortableColumn="titulo"><strong>Título</strong></span>{{anuncio.title}}</td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
@@ -36,6 +36,8 @@
     </tr>
   </ng-template>
 </p-table>
+
+
 <!-- Mensaje que se mostrará si no hay ningún job publicado -->
 <div *ngIf="this.listaAnunciosAdmin.length == 0 && findRolUser() === 'admin'" class="w-100 text-center gray6 mt-5">
   <p>Aún no han publicado ningún job</p>
@@ -61,10 +63,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-anuncio let-columns="anuncio">
     <tr>
-      <td *ngIf="getImage(anuncio.file)== null"><img src="../../../assets/img/default.png" alt="Imagen" width="70"
-          style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
+      <td *ngIf="getImage(anuncio.file)== null"><img src="../../../assets/img/default.png" alt="Imagen"
+          style="width: 70px; height: 70px;" /></td>
       <td *ngIf="getImage(anuncio.file)!= null"><img class="img-fluid" src={{getImage(anuncio.file)}} alt="Imagen"
-          width="70" style="margin: -20px; padding: -20px; margin-left: 10px;" /></td>
+          style="width: 70px; height: 70px;" /></td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]" class='textoConPuntos '><span class="p-column-title"
           pSortableColumn="titulo"><strong>Título</strong></span>{{anuncio.title}}</td>
       <td [routerLink]="['/anuncio-detalle', anuncio.id]"><span class="p-column-title"
@@ -83,7 +85,7 @@
 </div>
 
 <!-- Mostramos un dialogo con el formulario de añadir anuncio ya relleno para modificar los datos -->
-<p-dialog [(visible)]="dialogoVisible">
+<p-dialog [(visible)]="dialogoVisible" [modal]="true" [dismissableMask]="true" [closeOnEscape]="true">
 
   <app-add_job [edit]="true" [anuncioEditar]="anuncioSeleccionado" (recargarListado)="misAnuncios()"></app-add_job>
 

@@ -94,7 +94,7 @@ export class Add_JobComponent implements OnInit {
       })
       console.log(this.miFormulario.get("category")?.value);
       this.categoriaDefecto=this.miFormulario.get("category")?.value,
-      this.titulo= "Editar Currito";
+      this.titulo= "Editar Job";
       this.botonRegistro = "Actualizar anuncio"
     }
 

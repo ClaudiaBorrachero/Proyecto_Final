@@ -1,3 +1,4 @@
+import { SubMenuComponent } from './sub-menu/sub-menu.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
@@ -10,7 +11,8 @@ import { FooterComponent } from './footer/footer.component';
   declarations: [
     HeaderComponent,
     SearchComponent,
-    FooterComponent
+    FooterComponent,
+    SubMenuComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { FooterComponent } from './footer/footer.component';
   exports:[
     HeaderComponent,
     SearchComponent,
-    FooterComponent
+    FooterComponent,
+    SubMenuComponent
   ]
 })
 export class SharedModule { }

@@ -2,11 +2,11 @@
 <header class="w-100 fixed-top" style="z-index: 3; background-color: white;">
   <nav class="navbar navbar-expand-lg p-2">
     <div class="container-fluid">
-      <a href="#" class="navbar-brand me-5 d-none d-md-block d-lg-block d-xl-block">
+      <a href="#" [routerLink]="['/home']" class="navbar-brand me-5 d-none d-md-block d-lg-block d-xl-block">
         <h1 class="green fw-bold fst-italic" style="text-shadow: 1px 1px 2px #EA462F;">FlashJob</h1>
       </a>
       <div class="d-flex d-md-none d-lg-none d-xl-none row w-100 text-center">
-        <h1 class="col-4 green fw-bold fst-italic" style="text-shadow: 1px 1px 2px #EA462F;">FlashJob</h1>
+        <h1 class="col-4 green fw-bold fst-italic" style="text-shadow: 1px 1px 2px #EA462F;" [routerLink]="['/home']">FlashJob</h1>
         <app-search class="col-8"></app-search>
       </div>
 
@@ -41,7 +41,7 @@
             <i class="bi bi-person-circle green fs-1"></i>
           </button>
 
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <li><a class="dropdown-item" href="#" [routerLink]="['profile/mi_perfil']">Mi Perfil</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -50,7 +50,7 @@
             <li><a href="#" class="dropdown-item gray6 text-decoration-none">Visualizar perfil público</a></li>
             <li class="mt-5"><a href="#" class="green text-decoration-none"><i class="bi bi-door-open green"></i>Cerrar
                 Sesión</a></li>
-          </ul>
+          </ul> -->
         </div>
 
       </ul>

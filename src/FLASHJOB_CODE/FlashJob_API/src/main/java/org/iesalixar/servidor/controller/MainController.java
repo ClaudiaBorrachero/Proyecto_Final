@@ -37,7 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://claudiaborrachero.github.io"})
 @RestController
 public class MainController {
 
