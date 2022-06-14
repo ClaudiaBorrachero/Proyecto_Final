@@ -46,11 +46,11 @@ public class Register {
     }
 
     public void register() throws InterruptedException {
-        firstName.sendKeys("Javier");
+        firstName.sendKeys("Pepe");
         Thread.sleep(1000);
-        lastName.sendKeys("Ruiz Hidalgo");
+        lastName.sendKeys("Ramos Hidalgo");
         Thread.sleep(1000);
-        email.sendKeys("javirh@gmail.com");
+        email.sendKeys("ramospepito@gmail.com");
         Thread.sleep(1000);
         phoneNumber.sendKeys("608976783");
         Thread.sleep(1000);

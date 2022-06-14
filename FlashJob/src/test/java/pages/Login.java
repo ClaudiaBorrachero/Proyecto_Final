@@ -32,7 +32,7 @@ public class Login {
     }
 
     public void logIn() throws InterruptedException {
-        email.sendKeys("javirh@gmail.com");
+        email.sendKeys("ramospepito@gmail.com");
         Thread.sleep(2000);
         passw.sendKeys("123456");
         Thread.sleep(3000);

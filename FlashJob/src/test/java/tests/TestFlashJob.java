@@ -21,7 +21,7 @@ public class TestFlashJob {
 
     @Before
     public void setup() {
-        System.setProperty("webdriver.chrome.driver",PATHDRIVER+"chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver",PATHDRIVER+"chromedriver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
         options.addArguments("--incognito");
@@ -33,6 +33,7 @@ public class TestFlashJob {
     @Test
     public void flashjob() throws InterruptedException {
         driver.get(baseURL);
+        Thread.sleep(2000);
         Home home = new Home(driver);
         Register register = new Register(driver);
         Login login = new Login(driver);
@@ -41,11 +42,12 @@ public class TestFlashJob {
         home.register();
         register.register();
 
-        driver.get(baseURL);
+        //driver.get(baseURL);
         Thread.sleep(2000);
         home.logIn();
         Thread.sleep(2000);
         login.logIn();
+        Thread.sleep(5000);
 
         if(!driver.getCurrentUrl().contains("https://claudiaborrachero.github.io/FlashJobFront")) {
             throw new RuntimeException("Error en la URL");
