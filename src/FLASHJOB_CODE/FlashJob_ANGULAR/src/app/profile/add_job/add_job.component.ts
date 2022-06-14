@@ -131,8 +131,6 @@ export class Add_JobComponent implements OnInit {
         "location": this.miFormulario.get("location")?.value
     }
 
-    console.log("joderrrrr"+this.miFormulario.get("category")?.value)
-
     this.anuncioService.addAnuncio(anuncio, this.currentFile).subscribe({
 
       next:resp => {
@@ -140,7 +138,7 @@ export class Add_JobComponent implements OnInit {
         // this.anuncioEditadoCorrectamente();
         console.log(resp);
         this.miFormulario.reset()
-        location.replace(`anuncio-detalle/${respuesta.id}`);
+        this.router.navigate([`anuncio-detalle/${respuesta.id}`]);
       //  if(respuesta.jwt_token != null){
       //    localStorage.setItem('jwt', respuesta.jwt_token);
       //    this.router.navigate(['home']);
