@@ -14,10 +14,10 @@ public class Home {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    @FindBy(how = How.XPATH,using = "//app-root/app-header//nav[@class='navbar navbar-expand-lg p-2']//ul//a[@href='/FlashJobFront/register']")
+    @FindBy(how = How.XPATH,using = "//app-root/app-header//nav[@class='navbar navbar-expand-lg p-2']//ul//a[@href='/FlashJobAngular/register']")
     WebElement register;
 
-    @FindBy(how = How.XPATH,using = "//app-root/app-header//nav[@class='navbar navbar-expand-lg p-2']//ul//a[@href='/FlashJobFront/login']")
+    @FindBy(how = How.XPATH,using = "//app-root/app-header//nav[@class='navbar navbar-expand-lg p-2']//ul//a[@href='/FlashJobAngular/login']")
     WebElement logIn;
 
     public Home(WebDriver driver) {

@@ -61,5 +61,6 @@ public class Register {
         location.sendKeys("Sevilla");
         Thread.sleep(3000);
         register.click();
+        Thread.sleep(10000);
     }
 }

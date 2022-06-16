@@ -14,7 +14,7 @@ import pages.Register;
 public class TestFlashJob {
 
     private String PATHDRIVER = "src/test/resources/drivers/";
-    private String baseURL = "https://claudiaborrachero.github.io/FlashJobFront";
+    private String baseURL = "https://claudiaborrachero.github.io/FlashJobAngular/";
     private WebDriver driver;
     private JavascriptExecutor js;
     //private WebDriverWait wait;
@@ -49,7 +49,7 @@ public class TestFlashJob {
         login.logIn();
         Thread.sleep(5000);
 
-        if(!driver.getCurrentUrl().contains("https://claudiaborrachero.github.io/FlashJobFront")) {
+        if(!driver.getCurrentUrl().contains("https://claudiaborrachero.github.io/FlashJobAngular/")) {
             throw new RuntimeException("Error en la URL");
         }
 
